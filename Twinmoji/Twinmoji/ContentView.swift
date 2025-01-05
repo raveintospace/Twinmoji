@@ -65,4 +65,18 @@ extension ContentView {
             rightCard = Array(currentEmoji[itemCount + 1..<itemCount + itemCount] + [currentEmoji[0]].shuffled())
         }
     }
+    
+    func selectPlayer1() {
+        guard gameState == .waiting else { return }
+        answerColor = .blue
+        answerAnchor = .leading
+        gameState = .player1Answering
+    }
+    
+    func selectPlayer2() {
+        guard gameState == .waiting else { return }
+        answerColor = .red
+        answerAnchor = .trailing
+        gameState = .player2Answering
+    }
 }
