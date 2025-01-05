@@ -75,6 +75,7 @@ extension ContentView {
         answerColor = .blue
         answerAnchor = .leading
         gameState = .player1Answering
+        runClock()
     }
     
     func selectPlayer2() {
@@ -82,5 +83,26 @@ extension ContentView {
         answerColor = .red
         answerAnchor = .trailing
         gameState = .player2Answering
+        runClock()
+    }
+    
+    func timeOut() {
+        if gameState == .player1Answering {
+            player1Score -= 1
+        } else if gameState == .player2Answering {
+            player2Score -= 1
+        }
+        
+        gameState = .waiting
+    }
+    
+    func runClock() {
+        answerScale = 1
+        
+        withAnimation(.linear(duration: 1)) {
+            answerScale = 0
+        } completion: {
+            timeOut()
+        }
     }
 }
