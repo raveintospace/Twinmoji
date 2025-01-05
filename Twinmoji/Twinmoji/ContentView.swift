@@ -3,7 +3,7 @@
 //  Twinmoji
 //  https://www.youtube.com/live/up6LpJOz5bQ?si=sOrtjm8f7elYvGO_
 //  Created by Uri on 5/1/25.
-//
+//  Min 43
 
 import SwiftUI
 
@@ -33,6 +33,9 @@ struct ContentView: View {
             PlayerButton(gameState: gameState, score: player1Score, color: .blue, onSelect: selectPlayer1)
             
             ZStack {
+                answerColor
+                    .scaleEffect(x: answerScale, anchor: answerAnchor)
+                
                 if leftCard.isEmpty == false {
                     HStack {
                         CardView(card: leftCard)
@@ -59,7 +62,7 @@ struct ContentView: View {
 }
 
 extension ContentView {
-    func createLevel() {
+    private func createLevel() {
         currentEmoji = allEmoji.shuffled()
         
         withAnimation(.spring(duration: 0.75)) {
@@ -70,7 +73,7 @@ extension ContentView {
         }
     }
     
-    func selectPlayer1() {
+    private func selectPlayer1() {
         guard gameState == .waiting else { return }
         answerColor = .blue
         answerAnchor = .leading
@@ -78,7 +81,7 @@ extension ContentView {
         runClock()
     }
     
-    func selectPlayer2() {
+    private func selectPlayer2() {
         guard gameState == .waiting else { return }
         answerColor = .red
         answerAnchor = .trailing
@@ -86,7 +89,7 @@ extension ContentView {
         runClock()
     }
     
-    func timeOut() {
+    private func timeOut() {
         if gameState == .player1Answering {
             player1Score -= 1
         } else if gameState == .player2Answering {
