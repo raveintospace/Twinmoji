@@ -34,4 +34,15 @@ struct ContentView: View {
     ContentView(itemCount: 9)
 }
 
-
+extension ContentView {
+    func createLevel() {
+        currentEmoji = allEmoji.shuffled()
+        
+        withAnimation(.spring(duration: 0.75)) {
+            leftCard = Array(currentEmoji[0..<itemCount]).shuffled()
+            
+            // create an array with only one duplicated emoji (currentEmoji[0])
+            rightCard = Array(currentEmoji[itemCount + 1..<itemCount + itemCount] + [currentEmoji[0]].shuffled())
+        }
+    }
+}
