@@ -17,6 +17,15 @@ struct ContentView: View {
     @State private var leftCard: [String] = []
     @State private var rightCard: [String] = []
     
+    @State private var gameState: GameState = GameState.waiting
+    
+    @State private var player1Score: Int = 0
+    @State private var player2Score: Int = 0
+    
+    @State private var answerColor: Color = .clear
+    @State private var answerScale: CGFloat = 1.0
+    @State private var answerAnchor: UnitPoint = .center
+    
     var itemCount: Int
     
     var body: some View {
