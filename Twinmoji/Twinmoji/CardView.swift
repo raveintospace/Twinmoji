@@ -21,8 +21,6 @@ struct CardView: View {
     }
     
     var body: some View {
-        
-        // i: rows, j: columns (always 3)
         Grid(horizontalSpacing: 0, verticalSpacing: 0) {
             ForEach(0..<rows, id: \.self) { i in
                 GridRow {
@@ -48,3 +46,5 @@ struct CardView: View {
 #Preview {
     CardView(card: ["😁", "😃", "😄", "🥹", "😜", "😎", "😘", "🥸", "🥳"])
 }
+
+// i: rows, j: columns (always 3)

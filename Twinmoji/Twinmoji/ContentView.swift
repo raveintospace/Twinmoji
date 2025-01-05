@@ -20,13 +20,24 @@ struct ContentView: View {
     var itemCount: Int
     
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        HStack(spacing: 0) {
+            ZStack {
+                if leftCard.isEmpty == false {
+                    HStack {
+                        CardView(card: leftCard)
+                        CardView(card: rightCard)
+                    }
+                    .padding(.horizontal, 10)
+                }
+            }
         }
-        .padding()
+        .ignoresSafeArea()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(white: 0.9))
+        .persistentSystemOverlays(.hidden)
+        .onAppear {
+            createLevel()
+        }
     }
 }
 
