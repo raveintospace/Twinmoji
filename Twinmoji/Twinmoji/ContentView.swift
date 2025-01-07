@@ -26,6 +26,8 @@ struct ContentView: View {
     @State private var answerScale: CGFloat = 1.0
     @State private var answerAnchor: UnitPoint = .center
     
+    @State private var playerHasWon: Bool = false
+    
     // Properties passed from MenuView
     var answerTime: Double
     var itemCount: Int
@@ -65,6 +67,17 @@ struct ContentView: View {
         .persistentSystemOverlays(.hidden)
         .onAppear {
             createLevel()
+        }
+        .alert("Game over!", isPresented: $playerHasWon) {
+            Button("Start again") {
+                isGameActive = false
+            }
+        } message: {
+            if player1Score > player2Score {
+                Text("Player 1 won \(player1Score)-\(player2Score)")
+            } else {
+                Text("Player 2 won \(player1Score)-\(player2Score)")
+            }
         }
     }
 }
@@ -130,7 +143,7 @@ extension ContentView {
             }
             
             if player1Score == 5 || player2Score == 5 {
-                // game over
+                playerHasWon = true
             } else {
                 createLevel()
             }

@@ -10,12 +10,12 @@ import SwiftUI
 struct MenuView: View {
     
     @State private var answerTime: Double = 1.0
-    @State private var items: Int = 9
+    @State private var itemCount: Int = 9
     @State private var isGameActive: Bool = false
     
     var body: some View {
         if isGameActive {
-            ContentView(answerTime: answerTime, itemCount: items, isGameActive: $isGameActive)
+            ContentView(answerTime: answerTime, itemCount: itemCount, isGameActive: $isGameActive)
         } else {
             VStack(spacing: 10) {
                 Text("Twinmoji")
@@ -37,7 +37,7 @@ struct MenuView: View {
                 Text("Difficulty")
                     .font(.headline)
                 
-                Picker("Difficulty", selection: $items) {
+                Picker("Difficulty", selection: $itemCount) {
                     Text("Easy").tag(9)
                     Text("Hard").tag(12)
                 }
