@@ -38,8 +38,17 @@ struct ContentView: View {
                 
                 if leftCard.isEmpty == false {
                     HStack {
-                        CardView(card: leftCard, userCanAnswer: gameState != .waiting, onSelect: checkAnswer)
-                        CardView(card: rightCard, userCanAnswer: gameState != .waiting, onSelect: checkAnswer)
+                        CardView(
+                            card: leftCard,
+                            userCanAnswer: gameState != .waiting,
+                            onSelect: { selectedEmoji in
+                                checkAnswer(selectedEmoji: selectedEmoji)
+                            })
+                        CardView(card: rightCard,
+                                 userCanAnswer: gameState != .waiting,
+                                 onSelect: { selectedEmoji in
+                                     checkAnswer(selectedEmoji: selectedEmoji)
+                                 })
                     }
                     .padding(.horizontal, 10)
                 }
@@ -109,8 +118,8 @@ extension ContentView {
         }
     }
     
-    private func checkAnswer(_ string: String) {
-        if string == currentEmoji[0] {       // right answer
+    private func checkAnswer(selectedEmoji: String) {
+        if selectedEmoji == currentEmoji[0] {       // right answer
             if gameState == .player1Answering {
                 player1Score += 1
             } else if gameState == .player2Answering {
