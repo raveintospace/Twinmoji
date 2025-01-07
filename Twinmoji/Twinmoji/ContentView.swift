@@ -3,7 +3,7 @@
 //  Twinmoji
 //  https://www.youtube.com/live/up6LpJOz5bQ?si=sOrtjm8f7elYvGO_
 //  Created by Uri on 5/1/25.
-//  Min 43
+//
 
 import SwiftUI
 
@@ -38,8 +38,8 @@ struct ContentView: View {
                 
                 if leftCard.isEmpty == false {
                     HStack {
-                        CardView(card: leftCard)
-                        CardView(card: rightCard)
+                        CardView(card: leftCard, userCanAnswer: gameState != .waiting, onSelect: checkAnswer)
+                        CardView(card: rightCard, userCanAnswer: gameState != .waiting, onSelect: checkAnswer)
                     }
                     .padding(.horizontal, 10)
                 }
@@ -99,7 +99,7 @@ extension ContentView {
         gameState = .waiting
     }
     
-    func runClock() {
+    private func runClock() {
         answerScale = 1
         
         withAnimation(.linear(duration: 1)) {
@@ -107,5 +107,31 @@ extension ContentView {
         } completion: {
             timeOut()
         }
+    }
+    
+    private func checkAnswer(_ string: String) {
+        if string == currentEmoji[0] {       // right answer
+            if gameState == .player1Answering {
+                player1Score += 1
+            } else if gameState == .player2Answering {
+                player2Score += 1
+            }
+            
+            if player1Score == 5 || player2Score == 5 {
+                // game over
+            } else {
+                createLevel()
+            }
+        } else {    // wrong answer
+            if gameState == .player1Answering {
+                player1Score -= 1
+            } else if gameState == .player2Answering {
+                player2Score -= 1
+            }
+        }
+        
+        answerColor = .clear
+        answerScale = 0
+        gameState = .waiting
     }
 }

@@ -12,6 +12,9 @@ struct CardView: View {
     // the emojis on card
     var card: [String]
     
+    var userCanAnswer: Bool
+    var onSelect: (String) -> Void
+    
     var rows: Int {
         if card.count == 12 {
             4
@@ -28,7 +31,7 @@ struct CardView: View {
                         let text = card[i * 3 + j]
                         
                         Button(text) {
-                            // emoji selected
+                            onSelect(text)
                         }
                     }
                 }
@@ -40,11 +43,12 @@ struct CardView: View {
         .clipShape(.rect(cornerRadius: 20))
         .fixedSize()
         .shadow(radius: 10)
+        .disabled(userCanAnswer == false)
     }
 }
 
 #Preview {
-    CardView(card: ["😁", "😃", "😄", "🥹", "😜", "😎", "😘", "🥸", "🥳"])
+    CardView(card: ["😁", "😃", "😄", "🥹", "😜", "😎", "😘", "🥸", "🥳"], userCanAnswer: true) { _ in }
 }
 
 // i: rows, j: columns (always 3)
