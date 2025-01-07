@@ -30,7 +30,7 @@ struct ContentView: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            PlayerButton(gameState: gameState, score: player1Score, color: .blue, onSelect: selectPlayer1)
+            PlayerButton(gameState: gameState, score: player1Score, color: .blue, onButtonPressed: selectPlayer1)
             
             ZStack {
                 answerColor
@@ -54,11 +54,11 @@ struct ContentView: View {
                 }
             }
             
-            PlayerButton(gameState: gameState, score: player2Score, color: .red, onSelect: selectPlayer2)
+            PlayerButton(gameState: gameState, score: player2Score, color: .red, onButtonPressed: selectPlayer2)
         }
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(white: 0.9))
+        .background(.orange)
         .persistentSystemOverlays(.hidden)
         .onAppear {
             createLevel()

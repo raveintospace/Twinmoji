@@ -12,10 +12,10 @@ struct PlayerButton: View {
     var gameState: GameState
     var score: Int
     var color: Color
-    var onSelect: () -> Void
+    var onButtonPressed: () -> Void
     
     var body: some View {
-        Button(action: onSelect) {
+        Button(action: onButtonPressed) {
             Rectangle()
                 .fill(color)
                 .frame(minWidth: 60)
