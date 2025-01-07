@@ -26,7 +26,10 @@ struct ContentView: View {
     @State private var answerScale: CGFloat = 1.0
     @State private var answerAnchor: UnitPoint = .center
     
+    // Properties passed from MenuView
+    var answerTime: Double
     var itemCount: Int
+    @Binding var isGameActive: Bool
     
     var body: some View {
         HStack(spacing: 0) {
@@ -67,7 +70,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(itemCount: 9)
+    ContentView(answerTime: 1, itemCount: 9, isGameActive: .constant(true))
 }
 
 extension ContentView {
@@ -111,7 +114,7 @@ extension ContentView {
     private func runClock() {
         answerScale = 1
         
-        withAnimation(.linear(duration: 1)) {
+        withAnimation(.linear(duration: answerTime)) {
             answerScale = 0
         } completion: {
             timeOut()
