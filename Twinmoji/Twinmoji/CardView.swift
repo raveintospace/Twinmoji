@@ -44,6 +44,8 @@ struct CardView: View {
         .fixedSize()
         .shadow(radius: 10)
         .disabled(userCanAnswer == false)
+        .transition(.push(from: .top))  // move from top when the card changes
+        .id(card)       // updates the whole card, without it only the emojis would be updated
     }
 }
 
