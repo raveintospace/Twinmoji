@@ -10,23 +10,23 @@ import SwiftUI
 struct ContentView: View {
     
     // creates an array of characters
-    let allEmoji = Array("😎🥹🥰😔😂😳🧐🙂😇😅😆😙😬🙃😍🥸😣😶🙄🤨😩😉🥲😋😛🤓😏😭😯😵😐😘😢😠").map(String.init)
-    
-    @State private var currentEmoji: [String] = []
-    
-    @State private var leftCard: [String] = []
-    @State private var rightCard: [String] = []
-    
-    @State private var gameState: GameState = GameState.waiting
-    
-    @State private var player1Score: Int = 0
-    @State private var player2Score: Int = 0
-    
-    @State private var answerColor: Color = .clear
-    @State private var answerScale: CGFloat = 1.0
-    @State private var answerAnchor: UnitPoint = .center
-    
-    @State private var playerHasWon: Bool = false
+//    let allEmoji = Array("😎🥹🥰😔😂😳🧐🙂😇😅😆😙😬🙃😍🥸😣😶🙄🤨😩😉🥲😋😛🤓😏😭😯😵😐😘😢😠").map(String.init)
+//    
+//    @State private var currentEmoji: [String] = []
+//    
+//    @State private var leftCard: [String] = []
+//    @State private var rightCard: [String] = []
+//    
+//    @State private var gameState: GameState = GameState.waiting
+//    
+//    @State private var player1Score: Int = 0
+//    @State private var player2Score: Int = 0
+//    
+//    @State private var answerColor: Color = .clear
+//    @State private var answerScale: CGFloat = 1.0
+//    @State private var answerAnchor: UnitPoint = .center
+//    
+//    @State private var playerHasWon: Bool = false
     
     // Properties passed from MenuView
     var answerTime: Double
@@ -48,7 +48,7 @@ struct ContentView: View {
         .onAppear {
             createLevel()
         }
-        .alert(isPresented: $playerHasWon) {
+        .alert(isPresented: $viewModel.playerHasWon) {
             gameOverAlert()
         }
     }
@@ -64,10 +64,10 @@ extension ContentView {
             playerOneButton
             
             ZStack {
-                answerColor
-                    .scaleEffect(x: answerScale, anchor: answerAnchor)
+                viewModel.answerColor
+                    .scaleEffect(x: viewModel.answerScale, anchor: viewModel.answerAnchor)
                 
-                if leftCard.isEmpty == false {
+                if viewModel.leftCard.isEmpty == false {
                     playerCards
                 }
             }
@@ -79,14 +79,14 @@ extension ContentView {
     private var playerCards: some View {
         HStack {
             CardView(
-                card: leftCard,
-                userCanAnswer: gameState != .waiting,
+                card: viewModel.leftCard,
+                userCanAnswer: viewModel.gameState != .waiting,
                 onSelect: { selectedEmoji in
                     checkAnswer(selectedEmoji: selectedEmoji)
                 })
             
-            CardView(card: rightCard,
-                     userCanAnswer: gameState != .waiting,
+            CardView(card: viewModel.rightCard,
+                     userCanAnswer: viewModel.gameState != .waiting,
                      onSelect: { selectedEmoji in
                 checkAnswer(selectedEmoji: selectedEmoji)
             })
@@ -95,11 +95,11 @@ extension ContentView {
     }
     
     private var playerOneButton: some View {
-        PlayerButton(gameState: gameState, score: player1Score, color: .blue, onButtonPressed: selectPlayer1)
+        PlayerButton(gameState: viewModel.gameState, score: viewModel.player1Score, color: .blue, onButtonPressed: selectPlayer1)
     }
     
     private var playerTwoButton: some View {
-        PlayerButton(gameState: gameState, score: player2Score, color: .red, onButtonPressed: selectPlayer2)
+        PlayerButton(gameState: viewModel.gameState, score: viewModel.player2Score, color: .red, onButtonPressed: selectPlayer2)
     }
     
     private var endGameButton: some View {
@@ -115,10 +115,10 @@ extension ContentView {
     
     private func gameOverAlert() -> Alert {
         let winnerMessage: String
-        if player1Score > player2Score {
-            winnerMessage = "Player 1 won \(player1Score) - \(player2Score)"
+        if viewModel.player1Score > viewModel.player2Score {
+            winnerMessage = "Player 1 won \(viewModel.player1Score) - \(viewModel.player2Score)"
         } else {
-            winnerMessage = "Player 2 won \(player1Score) - \(player2Score)"
+            winnerMessage = "Player 2 won \(viewModel.player1Score) - \(viewModel.player2Score)"
         }
         
         return Alert(
@@ -131,79 +131,79 @@ extension ContentView {
     }
     
     private func createLevel() {
-        currentEmoji = allEmoji.shuffled()
+        viewModel.currentEmoji = viewModel.allEmoji.shuffled()
         
         withAnimation(.spring(duration: 0.75)) {
-            leftCard = Array(currentEmoji[0..<itemCount]).shuffled()
+            viewModel.leftCard = Array(viewModel.currentEmoji[0..<itemCount]).shuffled()
             
             // create an array with only one duplicated emoji (currentEmoji[0])
-            rightCard = Array(currentEmoji[itemCount + 1..<itemCount + itemCount] + [currentEmoji[0]].shuffled())
+            viewModel.rightCard = Array(viewModel.currentEmoji[itemCount + 1..<itemCount + itemCount] + [viewModel.currentEmoji[0]].shuffled())
         }
     }
     
     private func selectPlayer1() {
-        guard gameState == .waiting else { return }
-        answerColor = .blue
-        answerAnchor = .leading
-        gameState = .player1Answering
+        guard viewModel.gameState == .waiting else { return }
+        viewModel.answerColor = .blue
+        viewModel.answerAnchor = .leading
+        viewModel.gameState = .player1Answering
         runClock()
     }
     
     private func selectPlayer2() {
-        guard gameState == .waiting else { return }
-        answerColor = .red
-        answerAnchor = .trailing
-        gameState = .player2Answering
+        guard viewModel.gameState == .waiting else { return }
+        viewModel.answerColor = .red
+        viewModel.answerAnchor = .trailing
+        viewModel.gameState = .player2Answering
         runClock()
     }
     
     private func timeOut(emojiToCheck: [String]) {
-        guard currentEmoji == emojiToCheck else { return } // avoids timming out if the cardView has changed
+        guard viewModel.currentEmoji == emojiToCheck else { return } // avoids timming out if the cardView has changed
         
         
-        if gameState == .player1Answering {
-            player1Score -= 1
-        } else if gameState == .player2Answering {
-            player2Score -= 1
+        if viewModel.gameState == .player1Answering {
+            viewModel.player1Score -= 1
+        } else if viewModel.gameState == .player2Answering {
+            viewModel.player2Score -= 1
         }
         
-        gameState = .waiting
+        viewModel.gameState = .waiting
     }
     
     private func runClock() {
-        answerScale = 1
-        let checkEmoji = currentEmoji
+        viewModel.answerScale = 1
+        let checkEmoji = viewModel.currentEmoji
         
         withAnimation(.linear(duration: answerTime)) {
-            answerScale = 0
+            viewModel.answerScale = 0
         } completion: {
-            timeOut(emojiToCheck: currentEmoji)
+            timeOut(emojiToCheck: viewModel.currentEmoji)
         }
     }
     
     private func checkAnswer(selectedEmoji: String) {
-        if selectedEmoji == currentEmoji[0] {       // right answer
-            if gameState == .player1Answering {
-                player1Score += 1
-            } else if gameState == .player2Answering {
-                player2Score += 1
+        if selectedEmoji == viewModel.currentEmoji[0] {       // right answer
+            if viewModel.gameState == .player1Answering {
+                viewModel.player1Score += 1
+            } else if viewModel.gameState == .player2Answering {
+                viewModel.player2Score += 1
             }
             
-            if player1Score == 5 || player2Score == 5 {
-                playerHasWon = true
+            if viewModel.player1Score == 5 || viewModel.player2Score == 5 {
+                viewModel.playerHasWon = true
             } else {
                 createLevel()
             }
         } else {    // wrong answer
-            if gameState == .player1Answering {
-                player1Score -= 1
-            } else if gameState == .player2Answering {
-                player2Score -= 1
+            if viewModel.gameState == .player1Answering {
+                viewModel.player1Score -= 1
+            } else if viewModel.gameState == .player2Answering {
+                viewModel.player2Score -= 1
             }
         }
         
-        answerColor = .clear
-        answerScale = 0
-        gameState = .waiting
+        viewModel.answerColor = .clear
+        viewModel.answerScale = 0
+        viewModel.gameState = .waiting
     }
 }
