@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Twinmoji
 //  https://www.youtube.com/live/up6LpJOz5bQ?si=sOrtjm8f7elYvGO_
-//  Created by Uri on 5/1/25.
+//  Created by Uri on 5/1/25
 //
 
 import SwiftUI
