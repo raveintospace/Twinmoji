@@ -177,7 +177,7 @@ extension ContentView {
         withAnimation(.linear(duration: answerTime)) {
             viewModel.answerScale = 0
         } completion: {
-            timeOut(emojiToCheck: viewModel.currentEmoji)
+            timeOut(emojiToCheck: checkEmoji)
         }
     }
     
