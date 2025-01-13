@@ -33,6 +33,9 @@ struct ContentView: View {
     var itemCount: Int
     @Binding var isGameActive: Bool
     
+    // viewmodel refactor
+    @State var viewModel = ContentViewModel()
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             gameSpace
@@ -81,6 +84,7 @@ extension ContentView {
                 onSelect: { selectedEmoji in
                     checkAnswer(selectedEmoji: selectedEmoji)
                 })
+            
             CardView(card: rightCard,
                      userCanAnswer: gameState != .waiting,
                      onSelect: { selectedEmoji in
