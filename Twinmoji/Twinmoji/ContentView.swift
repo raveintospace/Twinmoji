@@ -85,9 +85,9 @@ struct ContentView: View {
             }
         } message: {
             if player1Score > player2Score {
-                Text("Player 1 won \(player1Score)-\(player2Score)")
+                Text("Player 1 won \(player1Score) - \(player2Score)")
             } else {
-                Text("Player 2 won \(player1Score)-\(player2Score)")
+                Text("Player 2 won \(player1Score) - \(player2Score)")
             }
         }
     }
@@ -125,7 +125,10 @@ extension ContentView {
         runClock()
     }
     
-    private func timeOut() {
+    private func timeOut(emojiToCheck: [String]) {
+        guard currentEmoji == emojiToCheck else { return } // avoids timming out if the cardView has changed
+        
+        
         if gameState == .player1Answering {
             player1Score -= 1
         } else if gameState == .player2Answering {
@@ -137,11 +140,12 @@ extension ContentView {
     
     private func runClock() {
         answerScale = 1
+        let checkEmoji = currentEmoji
         
         withAnimation(.linear(duration: answerTime)) {
             answerScale = 0
         } completion: {
-            timeOut()
+            timeOut(emojiToCheck: currentEmoji)
         }
     }
     
