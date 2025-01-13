@@ -35,42 +35,8 @@ struct ContentView: View {
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            HStack(spacing: 0) {
-                PlayerButton(gameState: gameState, score: player1Score, color: .blue, onButtonPressed: selectPlayer1)
-                
-                ZStack {
-                    answerColor
-                        .scaleEffect(x: answerScale, anchor: answerAnchor)
-                    
-                    if leftCard.isEmpty == false {
-                        HStack {
-                            CardView(
-                                card: leftCard,
-                                userCanAnswer: gameState != .waiting,
-                                onSelect: { selectedEmoji in
-                                    checkAnswer(selectedEmoji: selectedEmoji)
-                                })
-                            CardView(card: rightCard,
-                                     userCanAnswer: gameState != .waiting,
-                                     onSelect: { selectedEmoji in
-                                checkAnswer(selectedEmoji: selectedEmoji)
-                            })
-                        }
-                        .padding(.horizontal, 10)
-                    }
-                }
-                
-                PlayerButton(gameState: gameState, score: player2Score, color: .red, onButtonPressed: selectPlayer2)
-            }
-            
-            Button("End game", systemImage: "xmark.circle") {
-                isGameActive = false
-            }
-            .symbolVariant(.fill)
-            .labelStyle(.iconOnly)
-            .font(.largeTitle)
-            .tint(.white)
-            .padding(40)
+            gameSpace
+            endGameButton
         }
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -79,16 +45,8 @@ struct ContentView: View {
         .onAppear {
             createLevel()
         }
-        .alert("Game over!", isPresented: $playerHasWon) {
-            Button("Start again") {
-                isGameActive = false
-            }
-        } message: {
-            if player1Score > player2Score {
-                Text("Player 1 won \(player1Score) - \(player2Score)")
-            } else {
-                Text("Player 2 won \(player1Score) - \(player2Score)")
-            }
+        .alert(isPresented: $playerHasWon) {
+            gameOverAlert()
         }
     }
 }
@@ -98,6 +56,76 @@ struct ContentView: View {
 }
 
 extension ContentView {
+    private var gameSpace: some View {
+        HStack(spacing: 0) {
+            playerOneButton
+            
+            ZStack {
+                answerColor
+                    .scaleEffect(x: answerScale, anchor: answerAnchor)
+                
+                if leftCard.isEmpty == false {
+                    playerCards
+                }
+            }
+            
+            playerTwoButton
+        }
+    }
+    
+    private var playerCards: some View {
+        HStack {
+            CardView(
+                card: leftCard,
+                userCanAnswer: gameState != .waiting,
+                onSelect: { selectedEmoji in
+                    checkAnswer(selectedEmoji: selectedEmoji)
+                })
+            CardView(card: rightCard,
+                     userCanAnswer: gameState != .waiting,
+                     onSelect: { selectedEmoji in
+                checkAnswer(selectedEmoji: selectedEmoji)
+            })
+        }
+        .padding(.horizontal, 10)
+    }
+    
+    private var playerOneButton: some View {
+        PlayerButton(gameState: gameState, score: player1Score, color: .blue, onButtonPressed: selectPlayer1)
+    }
+    
+    private var playerTwoButton: some View {
+        PlayerButton(gameState: gameState, score: player2Score, color: .red, onButtonPressed: selectPlayer2)
+    }
+    
+    private var endGameButton: some View {
+        Button("End game", systemImage: "xmark.circle") {
+            isGameActive = false
+        }
+        .symbolVariant(.fill)
+        .labelStyle(.iconOnly)
+        .font(.largeTitle)
+        .tint(.white)
+        .padding(40)
+    }
+    
+    private func gameOverAlert() -> Alert {
+        let winnerMessage: String
+        if player1Score > player2Score {
+            winnerMessage = "Player 1 won \(player1Score) - \(player2Score)"
+        } else {
+            winnerMessage = "Player 2 won \(player1Score) - \(player2Score)"
+        }
+        
+        return Alert(
+            title: Text("Game over!"),
+            message: Text(winnerMessage),
+            dismissButton: .default(Text("Start again")) {
+                isGameActive = false
+            }
+        )
+    }
+    
     private func createLevel() {
         currentEmoji = allEmoji.shuffled()
         
