@@ -9,13 +9,11 @@ import SwiftUI
 
 struct MenuView: View {
     
-    @State private var answerTime: Double = 1.0
-    @State private var itemCount: Int = 9
-    @State private var isGameActive: Bool = false
+    @StateObject private var viewModel = ViewModel()
     
     var body: some View {
-        if isGameActive {
-            ContentView(answerTime: answerTime, itemCount: itemCount, isGameActive: $isGameActive)
+        if viewModel.isGameActive {
+            ContentView(viewModel: viewModel)
         } else {
             VStack(spacing: 10) {
                 Text("Twinmoji")
@@ -26,7 +24,7 @@ struct MenuView: View {
                 Text("Answer time")
                     .font(.headline)
                 
-                Picker("Timeout", selection: $answerTime) {
+                Picker("Timeout", selection: $viewModel.answerTime) {
                     Text("Slow").tag(2.0)
                     Text("Medium").tag(1.0)
                     Text("Fast").tag(0.5)
@@ -37,7 +35,7 @@ struct MenuView: View {
                 Text("Difficulty")
                     .font(.headline)
                 
-                Picker("Difficulty", selection: $itemCount) {
+                Picker("Difficulty", selection: $viewModel.itemCount) {
                     Text("Easy").tag(9)
                     Text("Hard").tag(12)
                 }
@@ -45,7 +43,7 @@ struct MenuView: View {
                 .padding(.bottom)
                 
                 Button("Start game") {
-                    isGameActive = true
+                    viewModel.isGameActive = true
                 }
                 .buttonStyle(.borderedProminent)
             }
