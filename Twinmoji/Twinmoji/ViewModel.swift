@@ -42,8 +42,13 @@ final class ViewModel: ObservableObject {
         withAnimation(.spring(duration: 0.75)) {
             leftCard = Array(currentEmoji[0..<itemCount]).shuffled()
             
-            // create an array with only one duplicated emoji (currentEmoji[0])
-            rightCard = Array(currentEmoji[itemCount + 1..<itemCount + itemCount] + [currentEmoji[0]].shuffled())
+            // create an array with only one duplicated emoji (currentEmoji[0]) inserted randomly
+            // currentEmoji[itemCount + 1..<itemCount + itemCount] -> 9 + 1..<18 (8 emojis)
+            var tempRightCard = Array(currentEmoji[itemCount + 1..<itemCount + itemCount])
+            let duplicateIndex = Int.random(in: 0...tempRightCard.count)
+            tempRightCard.insert(currentEmoji[0], at: duplicateIndex)
+            
+            rightCard = tempRightCard.shuffled()
         }
     }
     
