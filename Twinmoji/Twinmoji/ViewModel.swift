@@ -63,7 +63,7 @@ final class ViewModel: ObservableObject {
         runClock()
     }
     
-    func timeOut(emojiToCheck: [String]) {
+    private func timeOut(emojiToCheck: [String]) {
         guard currentEmoji == emojiToCheck else { return } // avoids timming out if the cardView has changed
         
         if gameState == .player1Answering {
@@ -75,7 +75,7 @@ final class ViewModel: ObservableObject {
         gameState = .waiting
     }
     
-    func runClock() {
+    private func runClock() {
         answerScale = 1
         let checkEmoji = currentEmoji
         
@@ -110,6 +110,13 @@ final class ViewModel: ObservableObject {
         answerColor = .clear
         answerScale = 0
         gameState = .waiting
+    }
+    
+    func startAgain() {
+        player1Score = 0
+        player2Score = 0
+        playerHasWon = false
+        isGameActive = false
     }
 }
 

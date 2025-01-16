@@ -101,7 +101,7 @@ extension ContentView {
             title: Text("Game over!"),
             message: Text(winnerMessage),
             dismissButton: .default(Text("Start again")) {
-                viewModel.isGameActive = false
+                viewModel.startAgain()
             }
         )
     }
