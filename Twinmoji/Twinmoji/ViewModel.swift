@@ -117,7 +117,7 @@ final class ViewModel: ObservableObject {
         gameState = .waiting
     }
     
-    func startAgain() {
+    func resetGame() {
         player1Score = 0
         player2Score = 0
         playerHasWon = false
@@ -127,6 +127,6 @@ final class ViewModel: ObservableObject {
 
 // TO DO:
 /*
- create the cards random
- reset scores when game finishes (won or exit by user) 
+Alert to exit game
+create menu option to select emoji topic
  */
