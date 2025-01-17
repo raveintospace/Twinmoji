@@ -126,7 +126,7 @@ extension ContentView {
             primaryButton: .default(Text("Exit")) {
                 viewModel.exitGame()
             },
-            secondaryButton: .cancel()
+            secondaryButton: .destructive(Text("Cancel"))
         )
     }
 }
