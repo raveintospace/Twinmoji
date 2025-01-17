@@ -117,7 +117,7 @@ final class ViewModel: ObservableObject {
         gameState = .waiting
     }
     
-    func resetGame() {
+    func exitGame() {
         player1Score = 0
         player2Score = 0
         playerHasWon = false

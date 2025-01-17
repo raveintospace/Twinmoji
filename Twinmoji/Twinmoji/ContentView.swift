@@ -9,13 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     
-    // viewmodel refactor
     @ObservedObject var viewModel: ViewModel
+    
+    @State private var activeAlert: GameAlert? = nil
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
             gameSpace
-            endGameButton
+            exitGameButton
         }
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -24,9 +25,21 @@ struct ContentView: View {
         .onAppear {
             viewModel.createLevel()
         }
-        .alert(isPresented: $viewModel.playerHasWon) {
-            gameOverAlert()
+        .alert(item: $activeAlert) {
+            alertType in
+            switch alertType {
+            case .playerHasWon:
+                return gameOverAlert()
+            case .resetGame:
+                return exitGameAlert()
+            }
         }
+        .onChange(of: viewModel.playerHasWon) { _ , newValue in
+            if newValue {
+                activeAlert = .playerHasWon
+            }
+        }
+
     }
 }
 
@@ -78,9 +91,9 @@ extension ContentView {
         PlayerButton(gameState: viewModel.gameState, score: viewModel.player2Score, color: .red, onButtonPressed: viewModel.selectPlayer2)
     }
     
-    private var endGameButton: some View {
-        Button("End game", systemImage: "xmark.circle") {
-            viewModel.isGameActive = false
+    private var exitGameButton: some View {
+        Button("Exit game", systemImage: "xmark.circle") {
+            activeAlert = .resetGame
         }
         .symbolVariant(.fill)
         .labelStyle(.iconOnly)
@@ -101,8 +114,19 @@ extension ContentView {
             title: Text("Game over!"),
             message: Text(winnerMessage),
             dismissButton: .default(Text("Start again")) {
-                viewModel.resetGame()
+                viewModel.exitGame()
             }
+        )
+    }
+    
+    private func exitGameAlert() -> Alert {
+        return Alert(
+            title: Text("Exit game?"),
+            message: Text("Are you sure you want to exit the game?"),
+            primaryButton: .default(Text("Exit")) {
+                viewModel.exitGame()
+            },
+            secondaryButton: .cancel()
         )
     }
 }
