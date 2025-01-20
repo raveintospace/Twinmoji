@@ -21,6 +21,18 @@ struct MenuView: View {
                     .bold()
                     .fontDesign(.rounded)
                 
+                Text("Emojis deck")
+                    .font(.headline)
+                
+                Picker("Emojis deck", selection: $viewModel.emojisDeck) {
+                    Text("Animals").tag(Deck.animals)
+                    Text("Faces").tag(Deck.faces)
+                    Text("Flags").tag(Deck.flags)
+                    Text("Food").tag(Deck.food)
+                }
+                .pickerStyle(.segmented)
+                .padding(.bottom)
+                
                 Text("Answer time")
                     .font(.headline)
                 
