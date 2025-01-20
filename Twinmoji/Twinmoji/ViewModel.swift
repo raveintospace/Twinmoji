@@ -11,7 +11,10 @@ import SwiftUI
 final class ViewModel: ObservableObject {
     
     // MARK: - ContentView properties
-    let allEmoji = Array("😎🥹🥰😔😂😳🧐🙂😇😅😆😙😬🙃😍🥸😣😶🙄🤨😩😉🥲😋😛🤓😏😭😯😵😐😘😢😠").map(String.init)
+    @Published var emojisDeck: Deck = Deck.faces
+    var allEmoji: [String] {
+        emojisDeck.emojis
+    }
     
     @Published var currentEmoji: [String] = []
     
