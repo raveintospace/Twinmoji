@@ -127,6 +127,5 @@ final class ViewModel: ObservableObject {
 
 // TO DO:
 /*
-Alert to exit game
-create menu option to select emoji topic
+Create menu option to select emoji topic
  */
