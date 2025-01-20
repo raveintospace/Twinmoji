@@ -130,5 +130,5 @@ final class ViewModel: ObservableObject {
 
 // TO DO:
 /*
-Create menu option to select emoji topic
+Fix score logic
  */
