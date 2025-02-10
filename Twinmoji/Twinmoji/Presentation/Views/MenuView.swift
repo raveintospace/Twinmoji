@@ -13,7 +13,7 @@ struct MenuView: View {
     
     var body: some View {
         if viewModel.isGameActive {
-            ContentView(viewModel: viewModel)
+            GameView(viewModel: viewModel)
         } else {
             VStack(spacing: 10) {
                 Text("Twinmoji")

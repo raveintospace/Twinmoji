@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct GameView: View {
     
     @ObservedObject var viewModel: ViewModel
     
@@ -17,6 +17,7 @@ struct ContentView: View {
         ZStack(alignment: .topTrailing) {
             gameSpace
             exitGameButton
+            playerTurnTitle
         }
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -39,15 +40,14 @@ struct ContentView: View {
                 activeAlert = .playerHasWon
             }
         }
-
     }
 }
 
 #Preview {
-    ContentView(viewModel: ViewModel())
+    GameView(viewModel: ViewModel())
 }
 
-extension ContentView {
+extension GameView {
     private var gameSpace: some View {
         HStack(spacing: 0) {
             playerOneButton
@@ -84,11 +84,21 @@ extension ContentView {
     }
     
     private var playerOneButton: some View {
-        PlayerButton(gameState: viewModel.gameState, score: viewModel.player1Score, color: .blue, onButtonPressed: viewModel.selectPlayer1)
+        PlayerButton(
+            gameState: viewModel.gameState,
+            score: viewModel.player1Score,
+            color: .blue,
+            onButtonPressed: viewModel.selectPlayer2
+        )
     }
     
     private var playerTwoButton: some View {
-        PlayerButton(gameState: viewModel.gameState, score: viewModel.player2Score, color: .red, onButtonPressed: viewModel.selectPlayer2)
+        PlayerButton(
+            gameState: viewModel.gameState,
+            score: viewModel.player2Score,
+            color: .red,
+            onButtonPressed: viewModel.selectPlayer1
+        )
     }
     
     private var exitGameButton: some View {
@@ -100,6 +110,15 @@ extension ContentView {
         .font(.largeTitle)
         .tint(.white)
         .padding(40)
+    }
+    
+    private var playerTurnTitle: some View {
+        Text("Player 1's turn!")
+            .foregroundStyle(.white)
+            .font(.system(size: 24))
+            .bold()
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding()
     }
     
     private func gameOverAlert() -> Alert {
