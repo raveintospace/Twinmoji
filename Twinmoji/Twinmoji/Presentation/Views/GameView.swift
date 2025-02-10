@@ -88,9 +88,10 @@ extension GameView {
             gameState: viewModel.gameState,
             playerNumber: "1",
             score: viewModel.player1Score,
-            color: .blue,
+            color: viewModel.gameTurn == .player2 ? .blue : .black,
             onButtonPressed: viewModel.selectPlayer2
         )
+        .disabled(viewModel.gameTurn != .player2)
     }
     
     private var playerTwoButton: some View {
@@ -98,9 +99,10 @@ extension GameView {
             gameState: viewModel.gameState,
             playerNumber: "2",
             score: viewModel.player2Score,
-            color: .red,
+            color: viewModel.gameTurn == .player1 ? .red : .black,
             onButtonPressed: viewModel.selectPlayer1
         )
+        .disabled(viewModel.gameTurn != .player1)
     }
     
     private var exitGameButton: some View {

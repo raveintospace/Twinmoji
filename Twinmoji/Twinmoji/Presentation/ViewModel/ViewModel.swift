@@ -57,16 +57,16 @@ final class ViewModel: ObservableObject {
     }
     
     func selectPlayer1() {
-        guard gameState == .waiting && gameTurn == .player1 else { return }
-        answerColor = .blue
+        guard gameState == .waiting else { return }
+        answerColor = .red
         answerAnchor = .leading
         gameState = .player1Answering
         runClock()
     }
     
     func selectPlayer2() {
-        guard gameState == .waiting && gameTurn == .player2 else { return }
-        answerColor = .red
+        guard gameState == .waiting else { return }
+        answerColor = .blue
         answerAnchor = .trailing
         gameState = .player2Answering
         runClock()
