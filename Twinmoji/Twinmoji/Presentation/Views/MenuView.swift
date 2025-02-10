@@ -11,6 +11,8 @@ struct MenuView: View {
     
     @StateObject private var viewModel = ViewModel()
     
+    @State private var showRulesView: Bool = false
+    
     var body: some View {
         if viewModel.isGameActive {
             GameView(viewModel: viewModel)
@@ -32,6 +34,9 @@ struct MenuView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
             .background(.orange)
+            .sheet(isPresented: $showRulesView) {
+                RulesView()
+            }
         }
     }
 }
@@ -97,7 +102,7 @@ extension MenuView {
     private var menuButtons: some View {
         HStack(spacing: 10) {
             Button("How to play") {
-                // show modal
+                showRulesView = true
             }
             .background(.blue)
             
