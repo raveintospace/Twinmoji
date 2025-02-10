@@ -33,7 +33,7 @@ struct MenuView: View {
             .shadow(radius: 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
-            .background(.orange)
+            .background(SplashGradient())
             .sheet(isPresented: $showRulesView) {
                 RulesView()
             }

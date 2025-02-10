@@ -11,14 +11,11 @@ struct SplashView: View {
     
     @State private var imageOpacity: Double = 0
     
-    @State private var isTextAnimating: Bool = false
-    private let creatorText: String = "Created by Uri46"
-    
     @Binding var showSplashView: Bool
     
     var body: some View {
         ZStack {
-            splashBackground
+            SplashGradient()
             
             VStack {
                 logoImage
@@ -30,8 +27,7 @@ struct SplashView: View {
                         showSplashView = false
                     }
                 }
-            }
-            .onAppear {
+                
                 withAnimation(.easeIn(duration: 1)) {
                     imageOpacity = 1
                 }
@@ -47,14 +43,6 @@ struct SplashView: View {
 #endif
 
 extension SplashView {
-    private var splashBackground: some View {
-        LinearGradient(gradient: Gradient(stops: [
-            .init(color: .twinmojiBlue, location: 0.0),
-            .init(color: .twinmojiRed, location: 0.8)
-        ]), startPoint: .leading, endPoint: .trailing)
-        .ignoresSafeArea()
-    }
-    
     private var logoImage: some View {
         Image("logo")
             .resizable()

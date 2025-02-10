@@ -41,7 +41,7 @@ struct PlayerButton: View {
         gameState: .waiting,
         playerNumber: "1",
         score: 5,
-        color: .blue
+        color: .twinmojiBlue
     ) {
         //
     }

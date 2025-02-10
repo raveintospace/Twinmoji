@@ -58,7 +58,7 @@ final class ViewModel: ObservableObject {
     
     func selectPlayer1() {
         guard gameState == .waiting else { return }
-        answerColor = .red
+        answerColor = .twinmojiRed
         answerAnchor = .leading
         gameState = .player1Answering
         runClock()
@@ -66,7 +66,7 @@ final class ViewModel: ObservableObject {
     
     func selectPlayer2() {
         guard gameState == .waiting else { return }
-        answerColor = .blue
+        answerColor = .twinmojiBlue
         answerAnchor = .trailing
         gameState = .player2Answering
         runClock()
