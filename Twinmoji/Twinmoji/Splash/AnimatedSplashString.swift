@@ -18,8 +18,8 @@ struct AnimatedSplashString: View {
             ForEach(Array(text.enumerated()), id: \.offset) { index, letter in
                 Text(String(letter))
                     .font(.system(size: 30, weight: .heavy, design: .serif))
-                    .foregroundStyle(.orange)
-                    .shadow(color: .black, radius: 2, x: 0, y: 0)
+                    .foregroundStyle(.twinmojiBlue)
+                    .shadow(color: .twinmojiRed, radius: 2, x: 0, y: 0)
                     .rotation3DEffect(
                         .degrees(isAnimating ? 360 : 0),
                         axis: (x: 1, y: 0, z: 0))

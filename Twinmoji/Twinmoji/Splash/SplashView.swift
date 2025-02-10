@@ -9,20 +9,34 @@ import SwiftUI
 
 struct SplashView: View {
     
+    @State private var imageOpacity: Double = 0
+    
     @State private var isTextAnimating: Bool = false
     private let creatorText: String = "Created by Uri46"
-
+    
     @Binding var showSplashView: Bool
     
     var body: some View {
-        splashCreatorText
+        ZStack {
+            splashBackground
+            
+            VStack {
+                logoImage
+                splashCreatorText
+            }
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                     withAnimation(.easeOut(duration: 0.3)) {
                         showSplashView = false
                     }
                 }
             }
+            .onAppear {
+                withAnimation(.easeIn(duration: 1)) {
+                    imageOpacity = 1
+                }
+            }
+        }
     }
 }
 
@@ -33,7 +47,27 @@ struct SplashView: View {
 #endif
 
 extension SplashView {
+    private var splashBackground: some View {
+        LinearGradient(gradient: Gradient(stops: [
+            .init(color: .twinmojiBlue, location: 0.0),
+            .init(color: .twinmojiRed, location: 0.8)
+        ]), startPoint: .leading, endPoint: .trailing)
+        .ignoresSafeArea()
+    }
+    
+    private var logoImage: some View {
+        Image("logo")
+            .resizable()
+            .frame(width: 250, height: 250)
+            .clipShape(.rect(cornerRadius: 10))
+            .opacity(imageOpacity)
+    }
+    
     private var splashCreatorText: some View {
-        AnimatedSplashString(text: creatorText, isAnimating: $isTextAnimating)
+        Text("Created by Uri46")
+            .font(.system(size: 30, weight: .heavy, design: .serif))
+            .foregroundStyle(.twinmojiBlue)
+            .shadow(color: .twinmojiRed, radius: 2, x: 0, y: 0)
+            .opacity(imageOpacity)
     }
 }

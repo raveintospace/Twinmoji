@@ -48,7 +48,6 @@ struct MenuView: View {
 #endif
 
 extension MenuView {
-    
     private var twinmojiTitle: some View {
         Text("Twinmoji")
             .font(.largeTitle)
