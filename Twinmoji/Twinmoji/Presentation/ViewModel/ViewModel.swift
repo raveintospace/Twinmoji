@@ -11,7 +11,7 @@ import SwiftUI
 final class ViewModel: ObservableObject {
     
     // MARK: - ContentView properties
-    @Published var emojisDeck: Deck = Deck.faces
+    @Published var emojisDeck: Deck = .faces
     var allEmoji: [String] {
         emojisDeck.emojis
     }
@@ -21,7 +21,8 @@ final class ViewModel: ObservableObject {
     @Published var leftCard: [String] = []
     @Published var rightCard: [String] = []
     
-    @Published var gameState: GameState = GameState.waiting
+    @Published var gameState: GameState = .waiting
+    @Published var gameTurn: GameTurn = .player1
     
     @Published var player1Score: Int = 0
     @Published var player2Score: Int = 0
@@ -56,7 +57,7 @@ final class ViewModel: ObservableObject {
     }
     
     func selectPlayer1() {
-        guard gameState == .waiting else { return }
+        guard gameState == .waiting && gameTurn == .player1 else { return }
         answerColor = .blue
         answerAnchor = .leading
         gameState = .player1Answering
@@ -64,7 +65,7 @@ final class ViewModel: ObservableObject {
     }
     
     func selectPlayer2() {
-        guard gameState == .waiting else { return }
+        guard gameState == .waiting && gameTurn == .player2 else { return }
         answerColor = .red
         answerAnchor = .trailing
         gameState = .player2Answering
@@ -81,6 +82,10 @@ final class ViewModel: ObservableObject {
         }
         
         gameState = .waiting
+        
+        withAnimation(.smooth()) {
+            updatePlayerTurn()
+        }
     }
     
     private func runClock() {
@@ -118,6 +123,18 @@ final class ViewModel: ObservableObject {
         answerColor = .clear
         answerScale = 0
         gameState = .waiting
+        
+        withAnimation(.smooth()) {
+            updatePlayerTurn()
+        }
+    }
+    
+    private func updatePlayerTurn() {
+        if gameTurn == .player1 {
+            gameTurn = .player2
+        } else {
+            gameTurn = .player1
+        }
     }
     
     func exitGame() {
