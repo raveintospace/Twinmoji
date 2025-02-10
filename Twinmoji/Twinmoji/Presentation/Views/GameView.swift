@@ -43,9 +43,11 @@ struct GameView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     GameView(viewModel: ViewModel())
 }
+#endif
 
 extension GameView {
     private var gameSpace: some View {

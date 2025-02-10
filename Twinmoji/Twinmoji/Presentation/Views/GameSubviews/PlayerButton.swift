@@ -35,6 +35,7 @@ struct PlayerButton: View {
     }
 }
 
+#if DEBUG
 #Preview {
     PlayerButton(
         gameState: .waiting,
@@ -45,3 +46,4 @@ struct PlayerButton: View {
         //
     }
 }
+#endif

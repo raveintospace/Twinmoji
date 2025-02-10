@@ -44,6 +44,8 @@ struct RulesView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     RulesView()
 }
+#endif

@@ -49,8 +49,12 @@ struct CardView: View {
     }
 }
 
+#if DEBUG
 #Preview {
-    CardView(card: ["😁", "😃", "😄", "🥹", "😜", "😎", "😘", "🥸", "🥳"], userCanAnswer: true) { _ in }
+    CardView(card: ["😁", "😃", "😄", "🥹", "😜", "😎", "😘", "🥸", "🥳"],
+             userCanAnswer: true) { _ in }
 }
+#endif
 
 // i: rows, j: columns (always 3)
+

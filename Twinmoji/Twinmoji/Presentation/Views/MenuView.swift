@@ -41,9 +41,11 @@ struct MenuView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     MenuView()
 }
+#endif
 
 extension MenuView {
     
