@@ -86,6 +86,7 @@ extension GameView {
     private var playerOneButton: some View {
         PlayerButton(
             gameState: viewModel.gameState,
+            playerNumber: "1",
             score: viewModel.player1Score,
             color: .blue,
             onButtonPressed: viewModel.selectPlayer2
@@ -95,6 +96,7 @@ extension GameView {
     private var playerTwoButton: some View {
         PlayerButton(
             gameState: viewModel.gameState,
+            playerNumber: "2",
             score: viewModel.player2Score,
             color: .red,
             onButtonPressed: viewModel.selectPlayer1
@@ -113,7 +115,7 @@ extension GameView {
     }
     
     private var playerTurnTitle: some View {
-        Text("Player 1's turn!")
+        Text(viewModel.gameTurn.rawValue)
             .foregroundStyle(.white)
             .font(.system(size: 24))
             .bold()

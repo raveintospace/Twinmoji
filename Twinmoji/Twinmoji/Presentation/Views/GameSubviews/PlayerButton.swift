@@ -10,6 +10,7 @@ import SwiftUI
 struct PlayerButton: View {
     
     var gameState: GameState
+    var playerNumber: String
     var score: Int
     var color: Color
     var onButtonPressed: () -> Void
@@ -20,10 +21,13 @@ struct PlayerButton: View {
                 .fill(color)
                 .frame(minWidth: 60)
                 .overlay(
-                    Text(String(score))
+                    VStack(alignment: .center) {
+                        Text("P\(playerNumber):")
+                        Text(String(score))
+                    }
                         .fixedSize()
-                        .foregroundStyle(.white)
                         .font(.system(size: 48))
+                        .foregroundStyle(.white)
                         .bold()
                 )
         }
@@ -32,7 +36,12 @@ struct PlayerButton: View {
 }
 
 #Preview {
-    PlayerButton(gameState: .waiting, score: 5, color: .blue) {
+    PlayerButton(
+        gameState: .waiting,
+        playerNumber: "1",
+        score: 5,
+        color: .blue
+    ) {
         //
     }
 }
