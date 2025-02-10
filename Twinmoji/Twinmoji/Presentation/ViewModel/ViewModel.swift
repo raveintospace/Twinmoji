@@ -22,7 +22,7 @@ final class ViewModel: ObservableObject {
     @Published var rightCard: [String] = []
     
     @Published var gameState: GameState = .waiting
-    @Published var gameTurn: GameTurn = .player1
+    @Published var gameTurn: GameTurn = Bool.random() ? .player1 : .player2
     
     @Published var player1Score: Int = 0
     @Published var player2Score: Int = 0
@@ -140,6 +140,7 @@ final class ViewModel: ObservableObject {
     func exitGame() {
         player1Score = 0
         player2Score = 0
+        gameTurn = Bool.random() ? .player1 : .player2
         playerHasWon = false
         isGameActive = false
     }
