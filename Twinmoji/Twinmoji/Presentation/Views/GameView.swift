@@ -30,7 +30,9 @@ struct GameView: View {
             alertType in
             switch alertType {
             case .playerHasWon:
-                return gameOverAlert()
+                return gameWonAlert()
+            case .playerHasLost:
+                return gameLostAlert()
             case .resetGame:
                 return exitGameAlert()
             }
@@ -38,6 +40,11 @@ struct GameView: View {
         .onChange(of: viewModel.playerHasWon) { _ , newValue in
             if newValue {
                 activeAlert = .playerHasWon
+            }
+        }
+        .onChange(of: viewModel.playerHasLost) { _ , newValue in
+            if newValue {
+                activeAlert = .playerHasLost
             }
         }
     }
@@ -127,7 +134,7 @@ extension GameView {
             .padding()
     }
     
-    private func gameOverAlert() -> Alert {
+    private func gameWonAlert() -> Alert {
         let winnerMessage: String
         if viewModel.player1Score > viewModel.player2Score {
             winnerMessage = "Player 1 won \(viewModel.player1Score) - \(viewModel.player2Score)"
@@ -136,12 +143,28 @@ extension GameView {
         }
         
         return Alert(
-            title: Text("Game over!"),
+            title: Text("We have a winner!"),
             message: Text(winnerMessage),
             dismissButton: .default(Text("Start again")) {
                 viewModel.exitGame()
             }
         )
+    }
+    
+    private func gameLostAlert() -> Alert {
+        let loserMessage: String
+        if viewModel.player1Score > viewModel.player2Score {
+            loserMessage = "Player 2 lost \(viewModel.player1Score) - \(viewModel.player2Score)"
+        } else {
+            loserMessage = "Player 1 lost \(viewModel.player1Score) - \(viewModel.player2Score)"
+        }
+        
+        return Alert(
+            title: Text("Game over!"),
+            message: Text(loserMessage),
+            dismissButton: .default(Text("Start again")) {
+            viewModel.exitGame()
+        })
     }
     
     private func exitGameAlert() -> Alert {

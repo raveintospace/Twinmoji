@@ -32,6 +32,7 @@ final class ViewModel: ObservableObject {
     @Published var answerAnchor: UnitPoint = .center
     
     @Published var playerHasWon: Bool = false
+    @Published var playerHasLost: Bool = false
     
     // MARK: - MenuView properties
     @Published var answerTime: Double = 1.0
@@ -118,6 +119,11 @@ final class ViewModel: ObservableObject {
             } else if gameState == .player2Answering {
                 player2Score -= 1
             }
+            
+            if player1Score == -3 || player2Score == -3 {
+                playerHasLost = true
+                debugPrint("somebody has lost")
+            }
         }
         
         answerColor = .clear
@@ -142,6 +148,7 @@ final class ViewModel: ObservableObject {
         player2Score = 0
         gameTurn = Bool.random() ? .player1 : .player2
         playerHasWon = false
+        playerHasLost = false
         isGameActive = false
     }
 }

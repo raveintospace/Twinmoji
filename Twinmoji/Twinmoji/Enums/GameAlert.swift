@@ -7,6 +7,7 @@
 
 enum GameAlert: Identifiable {
     case playerHasWon
+    case playerHasLost
     case resetGame
     
     var id: GameAlert {
