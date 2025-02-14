@@ -137,9 +137,9 @@ extension GameView {
     private func gameWonAlert() -> Alert {
         let winnerMessage: String
         if viewModel.player1Score > viewModel.player2Score {
-            winnerMessage = "Player 1 won \(viewModel.player1Score) - \(viewModel.player2Score)"
+            winnerMessage = "Player 1 won:\n \(viewModel.player1Score) / \(viewModel.player2Score)"
         } else {
-            winnerMessage = "Player 2 won \(viewModel.player1Score) - \(viewModel.player2Score)"
+            winnerMessage = "Player 2 won:\n \(viewModel.player1Score) / \(viewModel.player2Score)"
         }
         
         return Alert(
@@ -154,9 +154,9 @@ extension GameView {
     private func gameLostAlert() -> Alert {
         let loserMessage: String
         if viewModel.player1Score > viewModel.player2Score {
-            loserMessage = "Player 2 lost \(viewModel.player1Score) - \(viewModel.player2Score)"
+            loserMessage = "Player 2 lost:\n \(viewModel.player1Score) / \(viewModel.player2Score)"
         } else {
-            loserMessage = "Player 1 lost \(viewModel.player1Score) - \(viewModel.player2Score)"
+            loserMessage = "Player 1 lost:\n \(viewModel.player1Score) / \(viewModel.player2Score)"
         }
         
         return Alert(

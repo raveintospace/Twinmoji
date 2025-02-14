@@ -35,7 +35,7 @@ final class ViewModel: ObservableObject {
     @Published var playerHasLost: Bool = false
     
     private var pointsToWin: Int = 5
-    private var pointsToLose: Int = 10
+    private var pointsToLose: Int = -3
     
     // MARK: - MenuView properties
     @Published var answerTime: Double = 1.0
@@ -77,7 +77,9 @@ final class ViewModel: ObservableObject {
     }
     
     private func timeOut(emojiToCheck: [String]) {
-        guard currentEmoji == emojiToCheck else { return } // avoids timming out if the cardView has changed
+        // guard currentEmoji == emojiToCheck avoids timming out if the cardView has changed
+        // guard gameState != .waiting avoids timing out if checkAnswer has been executed
+        guard currentEmoji == emojiToCheck, gameState != .waiting else { return }
         
         if gameState == .player1Answering {
             player1Score -= 1
@@ -135,9 +137,9 @@ final class ViewModel: ObservableObject {
         answerScale = 0
         gameState = .waiting
         
-//        withAnimation(.smooth()) {
-//            updatePlayerTurn()
-//        }
+        withAnimation(.smooth()) {
+            updatePlayerTurn()
+        }
     }
     
     private func updatePlayerTurn() {
