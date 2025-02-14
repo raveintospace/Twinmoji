@@ -35,7 +35,7 @@ final class ViewModel: ObservableObject {
     @Published var playerHasLost: Bool = false
     
     private var pointsToWin: Int = 5
-    private var pointsToLose: Int = -3
+    private var pointsToLose: Int = -5
     
     // MARK: - MenuView properties
     @Published var answerTime: Double = 1.0

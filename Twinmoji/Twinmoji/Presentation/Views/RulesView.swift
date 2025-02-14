@@ -26,7 +26,7 @@ struct RulesView: View {
                     Text("- If it's Player 1's turn, Player 2 must start the countdown by tapping their colored area, and Player 1 must tap the repeated emoji on either card before time runs out.")
                     Text("- The same logic applies to Player 2's turn, but in reverse.")
                     Text("- When a player finds the identical emoji, they earn one point. If they miss, they lose one point.")
-                    Text("- The first player to reach five points wins the game.")
+                    Text("- The first player to reach 5 points wins the game, but the first to reach -5 loses the game.")
                 }
                 .multilineTextAlignment(.leading)
                 .padding()
