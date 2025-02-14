@@ -33,7 +33,7 @@ Twinmoji is inspired by a game concept from Paul Hudson, but with significant im
 ## 🎮 Game rules
 The game ends when:
 - A player reaches 5 points and wins.
-- A player drops to -10 points and loses.
+- A player drops to -5 points and loses.
 
 ---
 
