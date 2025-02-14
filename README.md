@@ -58,8 +58,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 | Color      | Hex                                                                |
 | ---------- | ------------------------------------------------------------------ |
-| TwinmojiBlue | ![#87EFFD](https://via.placeholder.com/10/87EFFD?text=+) #87EFFD   |
-| TwinmojiRed  | ![#F94B74](https://via.placeholder.com/10/F94B74?text=+) #F94B74   |
+| TwinmojiBlue | ![TwinmojiBlue](https://img.shields.io/badge/%20-87EFFD?style=flat&color=87EFFD) |
+| TwinmojiRed  | ![TwinmojiRed](https://img.shields.io/badge/%20-F94B74?style=flat&color=F94B74)  |
+
 
 ---
 
