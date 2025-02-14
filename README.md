@@ -1,5 +1,5 @@
 # Twinmoji
-Twinmoji is a challenging two-player game where both players compete to find the only identical emoji between two cards. Each card contains 9 emojis, making a total of 18 emojis, with only one pair being identical.
+Twinmoji is a challenging two-player game where both players compete to find the only identical emoji between two cards. Each card contains up to 12 emojis, with only one pair being identical.
 
 ##
 <p align="center">
