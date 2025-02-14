@@ -34,6 +34,9 @@ final class ViewModel: ObservableObject {
     @Published var playerHasWon: Bool = false
     @Published var playerHasLost: Bool = false
     
+    private var pointsToWin: Int = 5
+    private var pointsToLose: Int = 10
+    
     // MARK: - MenuView properties
     @Published var answerTime: Double = 1.0
     @Published var itemCount: Int = 9
@@ -57,7 +60,7 @@ final class ViewModel: ObservableObject {
         }
     }
     
-    func selectPlayer1() {
+    func activatePlayer1() {
         guard gameState == .waiting else { return }
         answerColor = .twinmojiRed
         answerAnchor = .leading
@@ -65,7 +68,7 @@ final class ViewModel: ObservableObject {
         runClock()
     }
     
-    func selectPlayer2() {
+    func activatePlayer2() {
         guard gameState == .waiting else { return }
         answerColor = .twinmojiBlue
         answerAnchor = .trailing
@@ -82,7 +85,7 @@ final class ViewModel: ObservableObject {
             player2Score -= 1
         }
         
-        if player1Score == -3 || player2Score == -3 {
+        if player1Score == pointsToLose || player2Score == pointsToLose {
             playerHasLost = true
         }
         
@@ -112,7 +115,7 @@ final class ViewModel: ObservableObject {
                 player2Score += 1
             }
             
-            if player1Score == 5 || player2Score == 5 {
+            if player1Score == pointsToWin || player2Score == pointsToWin {
                 playerHasWon = true
             } else {
                 createLevel()
@@ -123,7 +126,7 @@ final class ViewModel: ObservableObject {
             } else if gameState == .player2Answering {
                 player2Score -= 1
             }
-            if player1Score == -3 || player2Score == -3 {
+            if player1Score == pointsToLose || player2Score == pointsToLose {
                 playerHasLost = true
             }
         }
@@ -132,9 +135,9 @@ final class ViewModel: ObservableObject {
         answerScale = 0
         gameState = .waiting
         
-        withAnimation(.smooth()) {
-            updatePlayerTurn()
-        }
+//        withAnimation(.smooth()) {
+//            updatePlayerTurn()
+//        }
     }
     
     private func updatePlayerTurn() {
@@ -156,8 +159,3 @@ final class ViewModel: ObservableObject {
         isGameActive = false
     }
 }
-
-// TO DO:
-/*
-Fix score logic
- */

@@ -98,7 +98,7 @@ extension GameView {
             playerNumber: "1",
             score: viewModel.player1Score,
             color: viewModel.gameTurn == .player2 ? .twinmojiBlue : .black,
-            onButtonPressed: viewModel.selectPlayer2
+            onButtonPressed: viewModel.activatePlayer2
         )
         .disabled(viewModel.gameTurn != .player2)
     }
@@ -109,7 +109,7 @@ extension GameView {
             playerNumber: "2",
             score: viewModel.player2Score,
             color: viewModel.gameTurn == .player1 ? .twinmojiRed : .black,
-            onButtonPressed: viewModel.selectPlayer1
+            onButtonPressed: viewModel.activatePlayer1
         )
         .disabled(viewModel.gameTurn != .player1)
     }
