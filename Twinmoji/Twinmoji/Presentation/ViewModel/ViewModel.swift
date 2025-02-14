@@ -48,7 +48,7 @@ final class ViewModel: ObservableObject {
             leftCard = Array(currentEmoji[0..<itemCount]).shuffled()
             
             // create an array with only one duplicated emoji (currentEmoji[0]) inserted randomly
-            // currentEmoji[itemCount + 1..<itemCount + itemCount] -> 9 + 1..<18 (8 emojis)
+            // currentEmoji[itemCount + 1..<itemCount + itemCount] -> [10..<18] (8 emojis, that are not in left card
             var tempRightCard = Array(currentEmoji[itemCount + 1..<itemCount + itemCount])
             let duplicateIndex = Int.random(in: 0...tempRightCard.count)
             tempRightCard.insert(currentEmoji[0], at: duplicateIndex)
@@ -80,6 +80,10 @@ final class ViewModel: ObservableObject {
             player1Score -= 1
         } else if gameState == .player2Answering {
             player2Score -= 1
+        }
+        
+        if player1Score == -3 || player2Score == -3 {
+            playerHasLost = true
         }
         
         gameState = .waiting
@@ -119,10 +123,8 @@ final class ViewModel: ObservableObject {
             } else if gameState == .player2Answering {
                 player2Score -= 1
             }
-            
             if player1Score == -3 || player2Score == -3 {
                 playerHasLost = true
-                debugPrint("somebody has lost")
             }
         }
         
@@ -136,10 +138,12 @@ final class ViewModel: ObservableObject {
     }
     
     private func updatePlayerTurn() {
-        if gameTurn == .player1 {
-            gameTurn = .player2
-        } else {
-            gameTurn = .player1
+        if !playerHasWon && !playerHasLost {
+            if gameTurn == .player1 {
+                gameTurn = .player2
+            } else {
+                gameTurn = .player1
+            }
         }
     }
     
