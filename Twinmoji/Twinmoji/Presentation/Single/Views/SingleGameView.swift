@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct SingleGameView: View {
+    
+    @ObservedObject var viewModel: SingleViewModel
+    
     var body: some View {
         Text("Single game view")
     }
@@ -15,6 +18,6 @@ struct SingleGameView: View {
 
 #if DEBUG
 #Preview {
-    SingleGameView()
+    SingleGameView(viewModel: SingleViewModel())
 }
 #endif
