@@ -1,13 +1,13 @@
 //
-//  BattleRulesView.swift
+//  SingleRulesView.swift
 //  Twinmoji
 //
-//  Created by Uri on 10/2/25.
+//  Created by Uri on 15/2/25.
 //
 
 import SwiftUI
 
-struct BattleRulesView: View {
+struct SingleRulesView: View {
     
     @Environment(\.dismiss) private var dismiss
     
@@ -16,17 +16,16 @@ struct BattleRulesView: View {
             Color.orange.opacity(0.7).ignoresSafeArea()
             
             VStack(spacing: 10) {
-                Text("Battle rules")
+                Text("Single rules")
                     .font(.largeTitle)
                     .underline()
                     .bold()
                 
                 VStack(alignment: .leading, spacing: 10) {
                     Text("- The objective of the game is to find the one identical emoji between the two cards before time runs out.")
-                    Text("- If it's Player 1's turn, Player 2 must start the countdown by tapping their colored area, and Player 1 must tap the repeated emoji on time.")
-                    Text("- The same logic applies to Player 2's turn, but in reverse.")
-                    Text("- When a player finds the identical emoji, they earn one point. If they miss, they lose one point.")
-                    Text("- The first player to reach 5 points wins the game, but the first to reach -5 loses the game.")
+                    Text("- The player earns points based on the time remaining when they find the matching emoji, the faster, the more points earned.")
+                    Text("- If the player fails to tap the correct emoji, points are deducted based on the remaining time, the faster, the more points lost.")
+                    Text("- The game consists of ten rounds in total")
                 }
                 .multilineTextAlignment(.leading)
                 .padding()
@@ -46,6 +45,6 @@ struct BattleRulesView: View {
 
 #if DEBUG
 #Preview {
-    BattleRulesView()
+    SingleRulesView()
 }
 #endif
