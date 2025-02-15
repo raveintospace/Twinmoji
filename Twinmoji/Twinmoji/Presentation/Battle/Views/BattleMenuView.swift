@@ -9,8 +9,6 @@ import SwiftUI
 
 struct BattleMenuView: View {
     
-    @Environment(\.dismiss) private var dismiss
-    
     @StateObject private var viewModel = BattleViewModel()
     
     @State private var showBattleRulesView: Bool = false
@@ -52,11 +50,6 @@ struct BattleMenuView: View {
 #endif
 
 extension BattleMenuView {
-    private var goToHomeViewButton: some View {
-        GoToHomeViewButton {
-            dismiss()
-        }
-    }
     
     private var twinmojiTitle: some View {
         Text("Twinmoji - Battle mode")
@@ -67,7 +60,7 @@ extension BattleMenuView {
     
     private var battleMenuToolBar: some View {
         HStack(spacing: 0) {
-            goToHomeViewButton
+            GoToHomeViewButton()
                 .frame(width: 12, alignment: .leading)
             twinmojiTitle
                 .frame(maxWidth: .infinity, alignment: .center)

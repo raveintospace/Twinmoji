@@ -7,13 +7,20 @@
 
 import SwiftUI
 
-struct SingleMenuView: View {
+enum ActiveSheet: Identifiable {
+    case rules
+    case scoreboard
     
-    @Environment(\.dismiss) private var dismiss
+    var id: Int {
+        hashValue
+    }
+}
+
+struct SingleMenuView: View {
     
     @StateObject private var viewModel = SingleViewModel()
     
-    @State private var showSingleRulesView: Bool = false
+    @State private var activeSheet: ActiveSheet?
     
     var body: some View {
         if viewModel.isGameActive {
@@ -37,8 +44,13 @@ struct SingleMenuView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
             .background(TwinmojiGradient())
-            .sheet(isPresented: $showSingleRulesView) {
-                BattleRulesView()
+            .sheet(item: $activeSheet) { sheet in
+                switch sheet {
+                case .rules:
+                    SingleRulesView()
+                case .scoreboard:
+                    SingleScorecardView()
+                }
             }
             .toolbarVisibility(.hidden, for: .navigationBar)
         }
@@ -52,11 +64,6 @@ struct SingleMenuView: View {
 #endif
 
 extension SingleMenuView {
-    private var goToHomeViewButton: some View {
-        GoToHomeViewButton {
-            dismiss()
-        }
-    }
     
     private var twinmojiTitle: some View {
         Text("Twinmoji - Single mode")
@@ -67,7 +74,7 @@ extension SingleMenuView {
     
     private var singleMenuToolBar: some View {
         HStack(spacing: 0) {
-            goToHomeViewButton
+            GoToHomeViewButton()
                 .frame(width: 12, alignment: .leading)
             twinmojiTitle
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -122,9 +129,14 @@ extension SingleMenuView {
     private var menuButtons: some View {
         HStack(spacing: 10) {
             Button("Single rules") {
-                showSingleRulesView = true
+                activeSheet = .rules
             }
             .background(.blue)
+            
+            Button("Scoreboard") {
+                activeSheet = .scoreboard
+            }
+            .background(.purple)
             
             Button("Start game") {
                 viewModel.isGameActive = true

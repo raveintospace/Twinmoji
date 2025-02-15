@@ -9,11 +9,11 @@ import SwiftUI
 
 struct GoToHomeViewButton: View {
     
-    var onGoToHomeViewButtonPressed: (() -> Void)?
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         Button("Go to HomeView", systemImage: "house.circle") {
-            onGoToHomeViewButtonPressed?()
+            dismiss()
         }
         .labelStyle(.iconOnly)
         .font(.title)
