@@ -1,5 +1,5 @@
 //
-//  ContentViewModel.swift
+//  BattleViewModel.swift
 //  Twinmoji
 //
 //  Created by Uri on 13/1/25.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @MainActor
-final class ViewModel: ObservableObject {
+final class BattleViewModel: ObservableObject {
     
     // MARK: - ContentView properties
     @Published var emojisDeck: Deck = .faces

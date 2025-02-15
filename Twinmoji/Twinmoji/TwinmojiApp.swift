@@ -15,7 +15,7 @@ struct TwinmojiApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                MenuView()
+                BattleMenuView()
                     .preferredColorScheme(.light)       // forces light mode
                 
                 SplashView(showSplashView: $showSplashView)

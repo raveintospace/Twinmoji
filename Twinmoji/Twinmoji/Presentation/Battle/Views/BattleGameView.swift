@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  BattleGameView.swift
 //  Twinmoji
 //  https://www.youtube.com/live/up6LpJOz5bQ?si=sOrtjm8f7elYvGO_
 //  Created by Uri on 5/1/25
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct GameView: View {
+struct BattleGameView: View {
     
-    @ObservedObject var viewModel: ViewModel
+    @ObservedObject var viewModel: BattleViewModel
     
     @State private var activeAlert: GameAlert? = nil
     
@@ -52,11 +52,11 @@ struct GameView: View {
 
 #if DEBUG
 #Preview {
-    GameView(viewModel: ViewModel())
+    BattleGameView(viewModel: BattleViewModel())
 }
 #endif
 
-extension GameView {
+extension BattleGameView {
     private var gameSpace: some View {
         HStack(spacing: 0) {
             playerOneButton

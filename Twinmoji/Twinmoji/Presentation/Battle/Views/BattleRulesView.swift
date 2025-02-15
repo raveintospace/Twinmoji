@@ -1,5 +1,5 @@
 //
-//  RulesView.swift
+//  BattleRulesView.swift
 //  Twinmoji
 //
 //  Created by Uri on 10/2/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RulesView: View {
+struct BattleRulesView: View {
     
     @Environment(\.dismiss) private var dismiss
     
@@ -46,6 +46,6 @@ struct RulesView: View {
 
 #if DEBUG
 #Preview {
-    RulesView()
+    BattleRulesView()
 }
 #endif

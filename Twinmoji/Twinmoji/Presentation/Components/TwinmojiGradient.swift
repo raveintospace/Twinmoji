@@ -1,5 +1,5 @@
 //
-//  SplashGradient.swift
+//  TwinmojiGradient.swift
 //  Twinmoji
 //
 //  Created by Uri on 10/2/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SplashGradient: View {
+struct TwinmojiGradient: View {
     var body: some View {
         LinearGradient(gradient: Gradient(stops: [
             .init(color: .twinmojiBlue, location: 0.0),
@@ -19,6 +19,6 @@ struct SplashGradient: View {
 
 #if DEBUG
 #Preview {
-    SplashGradient()
+    TwinmojiGradient()
 }
 #endif

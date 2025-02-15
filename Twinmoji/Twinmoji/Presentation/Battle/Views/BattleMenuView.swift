@@ -1,5 +1,5 @@
 //
-//  MenuView.swift
+//  BattleMenuView.swift
 //  Twinmoji
 //
 //  Created by Uri on 7/1/25.
@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-struct MenuView: View {
+struct BattleMenuView: View {
     
-    @StateObject private var viewModel = ViewModel()
+    @StateObject private var viewModel = BattleViewModel()
     
     @State private var showRulesView: Bool = false
     
     var body: some View {
         if viewModel.isGameActive {
-            GameView(viewModel: viewModel)
+            BattleGameView(viewModel: viewModel)
         } else {
             VStack(spacing: 6) {
                 twinmojiTitle
@@ -33,9 +33,9 @@ struct MenuView: View {
             .shadow(radius: 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
-            .background(SplashGradient())
+            .background(TwinmojiGradient())
             .sheet(isPresented: $showRulesView) {
-                RulesView()
+                BattleRulesView()
             }
         }
     }
@@ -43,11 +43,11 @@ struct MenuView: View {
 
 #if DEBUG
 #Preview {
-    MenuView()
+    BattleMenuView()
 }
 #endif
 
-extension MenuView {
+extension BattleMenuView {
     private var twinmojiTitle: some View {
         Text("Twinmoji")
             .font(.largeTitle)
