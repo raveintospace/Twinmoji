@@ -25,9 +25,11 @@ struct HomeView: View {
             }
             .navigationDestination(isPresented: $showSingleMenuView) {
                 SingleGameView()
+                    .preferredColorScheme(.light)
             }
             .navigationDestination(isPresented: $showBattleMenuView) {
                 BattleMenuView()
+                    .preferredColorScheme(.light)
             }
         }
     }

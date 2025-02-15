@@ -9,6 +9,8 @@ import SwiftUI
 
 struct BattleMenuView: View {
     
+    @Environment(\.dismiss) private var dismiss
+    
     @StateObject private var viewModel = BattleViewModel()
     
     @State private var showRulesView: Bool = false
@@ -18,7 +20,7 @@ struct BattleMenuView: View {
             BattleGameView(viewModel: viewModel)
         } else {
             VStack(spacing: 6) {
-                twinmojiTitle
+                battleMenuToolBar
                 emojisDeckTitle
                 emojisDeckPicker
                 answerTimeTitle
@@ -37,6 +39,7 @@ struct BattleMenuView: View {
             .sheet(isPresented: $showRulesView) {
                 BattleRulesView()
             }
+            .toolbarVisibility(.hidden, for: .navigationBar)
         }
     }
 }
@@ -48,11 +51,26 @@ struct BattleMenuView: View {
 #endif
 
 extension BattleMenuView {
+    private var goToHomeViewButton: some View {
+        GoToHomeViewButton {
+            dismiss()
+        }
+    }
+    
     private var twinmojiTitle: some View {
-        Text("Twinmoji")
+        Text("Twinmoji - Battle mode")
             .font(.largeTitle)
             .bold()
             .fontDesign(.rounded)
+    }
+    
+    private var battleMenuToolBar: some View {
+        HStack(spacing: 0) {
+            goToHomeViewButton
+                .frame(width: 12, alignment: .leading)
+            twinmojiTitle
+                .frame(maxWidth: .infinity, alignment: .center)
+        }
     }
     
     private var emojisDeckTitle: some View {

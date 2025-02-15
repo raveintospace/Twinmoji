@@ -23,6 +23,7 @@ struct BattleGameView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.orange)
         .persistentSystemOverlays(.hidden)
+        .toolbarVisibility(.hidden, for: .navigationBar)
         .onAppear {
             viewModel.createLevel()
         }
