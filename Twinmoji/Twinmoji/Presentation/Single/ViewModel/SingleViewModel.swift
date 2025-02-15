@@ -103,10 +103,9 @@ final class SingleViewModel: ObservableObject {
     }
     
     func checkAnswer(selectedEmoji: String) {
-        if selectedEmoji == currentEmoji[0] {       // right answer
+        if selectedEmoji == currentEmoji[0] {
             addPoints(timeRemaining: timeRemaining)
-            
-        } else {    // wrong answer
+        } else {
             // substract points
         }
         
