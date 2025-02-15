@@ -16,7 +16,7 @@ struct BattleRulesView: View {
             Color.orange.opacity(0.7).ignoresSafeArea()
             
             VStack(spacing: 10) {
-                Text("Game rules")
+                Text("Battle rules")
                     .font(.largeTitle)
                     .underline()
                     .bold()

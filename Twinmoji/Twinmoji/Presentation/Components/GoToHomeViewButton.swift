@@ -17,6 +17,7 @@ struct GoToHomeViewButton: View {
         }
         .labelStyle(.iconOnly)
         .font(.title)
+        .foregroundStyle(.blue)
         .padding(8)
     }
 }

@@ -13,7 +13,7 @@ struct BattleMenuView: View {
     
     @StateObject private var viewModel = BattleViewModel()
     
-    @State private var showRulesView: Bool = false
+    @State private var showBattleRulesView: Bool = false
     
     var body: some View {
         if viewModel.isGameActive {
@@ -30,13 +30,14 @@ struct BattleMenuView: View {
                 menuButtons
             }
             .padding()
+            .foregroundStyle(.black)
             .background(.white)
             .clipShape(.rect(cornerRadius: 20))
             .shadow(radius: 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
             .background(TwinmojiGradient())
-            .sheet(isPresented: $showRulesView) {
+            .sheet(isPresented: $showBattleRulesView) {
                 BattleRulesView()
             }
             .toolbarVisibility(.hidden, for: .navigationBar)
@@ -120,8 +121,8 @@ extension BattleMenuView {
     
     private var menuButtons: some View {
         HStack(spacing: 10) {
-            Button("How to play") {
-                showRulesView = true
+            Button("Battle rules") {
+                showBattleRulesView = true
             }
             .background(.blue)
             

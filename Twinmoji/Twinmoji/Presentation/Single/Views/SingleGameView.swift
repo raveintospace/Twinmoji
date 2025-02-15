@@ -13,6 +13,8 @@ struct SingleGameView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     SingleGameView()
 }
+#endif
