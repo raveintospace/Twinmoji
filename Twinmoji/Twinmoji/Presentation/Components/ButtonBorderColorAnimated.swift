@@ -26,39 +26,47 @@ struct ButtonBorderColorAnimated: View {
     var textYOffset: CGFloat = 0
     
     var body: some View {
-        Text(text)
-            .font(
-                fontName != nil ?
-                    .custom(fontName!, size: fontSize).weight(fontWeight) : .system(size: fontSize, weight: fontWeight)
-            )
-            .offset(y: textYOffset)
-            .foregroundStyle(.primary)
-            .frame(width: buttonWidth, height: buttonHeight)
-            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-            .overlay(
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .stroke(
-                        LinearGradient(
-                            gradient: buttonGradient,
-                            startPoint: isAnimating ? .topTrailing : .bottomLeading,
-                            endPoint: isAnimating ? .bottomTrailing : .center
-                        ),
-                        lineWidth: 4
-                    )
-                    .blur(radius: radius)
-                    .animation(.easeInOut(duration: duration).repeatForever(autoreverses: true), value: isAnimating)
-            )
-            .onAppear {
-                isAnimating = true
-            }
+        Button(action: {
+            onButtonPressed?()
+        }) {
+            Text(text)
+                .font(
+                    fontName != nil ?
+                        .custom(fontName!, size: fontSize).weight(fontWeight) : .system(size: fontSize, weight: fontWeight)
+                )
+                .offset(y: textYOffset)
+                .foregroundStyle(.black)
+                .frame(width: buttonWidth, height: buttonHeight)
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+                .overlay(
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .stroke(
+                            LinearGradient(
+                                gradient: buttonGradient,
+                                startPoint: isAnimating ? .topTrailing : .bottomLeading,
+                                endPoint: isAnimating ? .bottomTrailing : .center
+                            ),
+                            lineWidth: 4
+                        )
+                        .blur(radius: radius)
+                        .animation(.easeInOut(duration: duration).repeatForever(autoreverses: true), value: isAnimating)
+                )
+        }
+        .onAppear {
+            isAnimating = true
+        }
     }
 }
 
 #if DEBUG
 #Preview {
-    VStack(spacing: 20) {
-        ButtonBorderColorAnimated(text: "Single")
-        ButtonBorderColorAnimated(text: "Battle")
+    ZStack {
+        TwinmojiGradient()
+        
+        VStack(spacing: 20) {
+            ButtonBorderColorAnimated(text: "Single")
+            ButtonBorderColorAnimated(text: "Battle")
+        }
     }
 }
 #endif
