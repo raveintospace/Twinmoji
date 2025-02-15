@@ -23,12 +23,12 @@ struct HomeView: View {
                     battleButton
                 }
             }
-        }
-        .navigationDestination(isPresented: $showSingleMenuView) {
-            SingleGameView()
-        }
-        .navigationDestination(isPresented: $showBattleMenuView) {
-            BattleMenuView()
+            .navigationDestination(isPresented: $showSingleMenuView) {
+                SingleGameView()
+            }
+            .navigationDestination(isPresented: $showBattleMenuView) {
+                BattleMenuView()
+            }
         }
     }
 }
