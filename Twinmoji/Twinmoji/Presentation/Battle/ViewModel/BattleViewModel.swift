@@ -10,7 +10,7 @@ import SwiftUI
 @MainActor
 final class BattleViewModel: ObservableObject {
     
-    // MARK: - ContentView properties
+    // MARK: - GameView properties
     @Published var emojisDeck: Deck = .faces
     var allEmojis: [String] {
         emojisDeck.emojis

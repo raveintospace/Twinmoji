@@ -8,8 +8,8 @@
 import Foundation
 
 enum GameState {
-    case waiting
     case player1Answering
     case player2Answering
     case singlePlayerAnswering
+    case waiting
 }

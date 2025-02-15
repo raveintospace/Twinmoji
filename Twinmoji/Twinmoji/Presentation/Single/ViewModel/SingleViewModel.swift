@@ -10,7 +10,7 @@ import SwiftUI
 @MainActor
 final class SingleViewModel: ObservableObject {
     
-    // MARK: - ContentView properties
+    // MARK: - GameView properties
     @Published var emojisDeck: Deck = .faces
     var allEmojis: [String] {
         emojisDeck.emojis
@@ -23,11 +23,14 @@ final class SingleViewModel: ObservableObject {
     
     @Published var gameState: GameState = .waiting
     
+    private var timer: Timer?
+    @Published var timeRemaining: Double = 0.0
+    
     @Published var answerColor: Color = .clear
     @Published var answerScale: CGFloat = 1.0
     @Published var answerAnchor: UnitPoint = .center
     
-    @Published var score: Int = 0
+    @Published var playerPoints: Int = 0
     @Published var rounds: Int = 10
     @Published var hasGameEnded: Bool = false
     
@@ -79,42 +82,73 @@ final class SingleViewModel: ObservableObject {
     }
     
     private func runClock() {
+        timeRemaining = answerTime
         answerScale = 1
         let checkEmoji = currentEmoji
         
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+            DispatchQueue.main.async {
+                if self.timeRemaining > 0 {
+                    self.timeRemaining -= 0.1
+                } else {
+                    self.timer?.invalidate()
+                    self.timeOut(emojiToCheck: self.currentEmoji)
+                }
+            }
+        }
+        
         withAnimation(.linear(duration: answerTime)) {
             answerScale = 0
-        } completion: {
-            self.timeOut(emojiToCheck: checkEmoji)
         }
     }
     
     func checkAnswer(selectedEmoji: String) {
         if selectedEmoji == currentEmoji[0] {       // right answer
-            // add points
+            addPoints(timeRemaining: timeRemaining)
             
-            if rounds == 0 {
-                hasGameEnded = true
-            } else {
-                createLevel()
-            }
         } else {    // wrong answer
             // substract points
-            
-            if rounds == 0 {
-                hasGameEnded = true
-            } else {
-                createLevel() // -> create level for each round
-            }
         }
+        
+        checkIfGameHasEndedOrContinues()
         
         answerColor = .clear
         answerScale = 0
         gameState = .waiting
     }
     
+    private func addPoints(timeRemaining: Double) {
+        let baseScore = 100
+
+        let difficultyMultiplier: Double = (itemCount == 9) ? 1.0 : 1.3 // Easy: 1.0, Hard: 1.3
+        
+        let speedMultiplier: Double = {
+            switch answerTime {
+            case 2.0: return 1.0  // Slow
+            case 1.0: return 1.2  // Medium
+            case 0.5: return 1.5  // Fast
+            default: return 1.0
+            }
+        }()
+        
+        // timeFactor is bigger if answerTime is shorter
+        let timeFactor = timeRemaining / answerTime
+        let score = Int(Double(baseScore) * timeFactor * difficultyMultiplier * speedMultiplier)
+        
+        playerPoints += max(score, 10)  // Min of 10 points in worst case scenario
+    }
+    
+    private func checkIfGameHasEndedOrContinues() {
+        if rounds == 0 {
+            hasGameEnded = true
+        } else {
+            createLevel()
+        }
+    }
+    
     func exitGame() {
-        score = 0
+        timer?.invalidate()
+        playerPoints = 0
         rounds = 10
         hasGameEnded = false
         isGameActive = false
