@@ -12,7 +12,7 @@ final class BattleViewModel: ObservableObject {
     
     // MARK: - ContentView properties
     @Published var emojisDeck: Deck = .faces
-    var allEmoji: [String] {
+    var allEmojis: [String] {
         emojisDeck.emojis
     }
     
@@ -45,7 +45,7 @@ final class BattleViewModel: ObservableObject {
     
     // MARK: - Methods
     func createLevel() {
-        currentEmoji = allEmoji.shuffled()
+        currentEmoji = allEmojis.shuffled()
         
         withAnimation(.spring(duration: 0.75)) {
             leftCard = Array(currentEmoji[0..<itemCount]).shuffled()
