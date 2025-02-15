@@ -37,6 +37,8 @@ struct ButtonBorderColorAnimated: View {
                 .offset(y: textYOffset)
                 .foregroundStyle(.black)
                 .frame(width: buttonWidth, height: buttonHeight)
+                .background(RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(Color.white.opacity(0.8)))
                 .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
                 .overlay(
                     RoundedRectangle(cornerRadius: cornerRadius)
