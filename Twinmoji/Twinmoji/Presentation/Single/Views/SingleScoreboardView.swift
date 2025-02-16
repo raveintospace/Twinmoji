@@ -71,6 +71,7 @@ extension SingleScoreboardView {
                 }
             }
         }
+        .scrollIndicators(.hidden)
         .padding(.horizontal)
         .padding(.top, 20)
 
