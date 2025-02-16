@@ -1,4 +1,6 @@
 # Twinmoji
+⚠️⚠️ Project in construction, only Battle mode is finished ⚠️⚠️
+
 Twinmoji is a challenging two-player game where both players compete to find the only identical emoji between two cards. Each card contains up to 12 emojis, with only one pair being identical.
 
 ##
