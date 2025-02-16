@@ -49,7 +49,7 @@ struct SingleMenuView: View {
                 case .rules:
                     SingleRulesView()
                 case .scoreboard:
-                    SingleScorecardView()
+                    SingleScoreboardView(viewModel: viewModel)
                 }
             }
             .toolbarVisibility(.hidden, for: .navigationBar)

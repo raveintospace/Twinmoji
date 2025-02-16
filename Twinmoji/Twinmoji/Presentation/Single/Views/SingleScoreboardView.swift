@@ -1,5 +1,5 @@
 //
-//  SingleScorecardView.swift
+//  SingleScoreboardView.swift
 //  Twinmoji
 //
 //  Created by Uri on 15/2/25.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct SingleScorecardView: View {
+struct SingleScoreboardView: View {
     
-    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var viewModel: SingleViewModel
     
     var body: some View {
         ZStack {
@@ -26,6 +26,6 @@ struct SingleScorecardView: View {
 
 #if DEBUG
 #Preview {
-    SingleScorecardView()
+    SingleScoreboardView(viewModel: SingleViewModel())
 }
 #endif
