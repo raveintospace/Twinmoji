@@ -77,6 +77,9 @@ extension SingleGameView {
                 VStack(alignment: .center) {
                     Text("Points:")
                     Text(String(viewModel.playerPoints))
+                    Divider()
+                    Text("Matches:")
+                    Text(String(viewModel.matches))
                 }
                     .fixedSize()
                     .font(.system(size: 22))

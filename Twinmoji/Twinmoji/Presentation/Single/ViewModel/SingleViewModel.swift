@@ -28,6 +28,7 @@ final class SingleViewModel: ObservableObject {
     private var pausedTimeRemaining: Double = 0.0
     
     @Published var playerPoints: Int = 0
+    @Published var matches: Int = 0
     @Published var rounds: Int = 0
     @Published var hasGameEnded: Bool = false
     
@@ -113,6 +114,7 @@ final class SingleViewModel: ObservableObject {
         
         if selectedEmoji == currentEmoji[0] {
             addPoints(timeRemaining: timeRemaining)
+            addMatch()
         } else {
             penalizePointsForFailure(timeRemaining: timeRemaining)
         }
@@ -139,6 +141,10 @@ final class SingleViewModel: ObservableObject {
         let score = Int(Double(baseScore) * timeFactor * difficultyMultiplier * speedMultiplier)
         
         playerPoints += max(score, 10)  // Min of 10 points in worst case scenario
+    }
+    
+    private func addMatch() {
+        matches += 1
     }
     
     private func penalizePointsForFailure(timeRemaining: Double) {
@@ -207,6 +213,7 @@ final class SingleViewModel: ObservableObject {
     func exitGame() {
         timer?.invalidate()
         playerPoints = 0
+        matches = 0
         rounds = 0
         hasGameEnded = false
         isGameActive = false
