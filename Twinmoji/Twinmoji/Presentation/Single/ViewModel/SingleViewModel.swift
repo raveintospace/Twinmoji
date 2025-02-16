@@ -33,7 +33,7 @@ final class SingleViewModel: ObservableObject {
     @Published var showPlayerCards: Bool = false
     
     // MARK: - MenuView properties
-    @Published var answerTime: Double = 2.5
+    @Published var answerTime: Double = 0.5
     @Published var itemCount: Int = 9
     @Published var isGameActive: Bool = false
     
@@ -92,9 +92,11 @@ final class SingleViewModel: ObservableObject {
                     self.timeOut(emojiToCheck: checkEmoji)
                     
                     // create new level
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        self.createLevel()
-                        self.activateSinglePlayer()
+                    if !self.hasGameEnded {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            self.createLevel()
+                            self.activateSinglePlayer()
+                        }
                     }
                 }
             }

@@ -6,7 +6,7 @@
 //
 
 enum SingleGameAlert: Identifiable {
-    case hasGameFinished
+    case hasGameEnded
     case resetGame
     
     var id: SingleGameAlert {

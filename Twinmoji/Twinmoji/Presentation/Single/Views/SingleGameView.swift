@@ -31,10 +31,15 @@ struct SingleGameView: View {
         .alert(item: $activeAlert) {
             alertType in
             switch alertType {
-            case .hasGameFinished:
-                return exitGameAlert()
+            case .hasGameEnded:
+                return gameEndedAlert()
             case .resetGame:
                 return exitGameAlert()
+            }
+        }
+        .onChange(of: viewModel.hasGameEnded) { _ , newValue in
+            if newValue {
+                activeAlert = .hasGameEnded
             }
         }
     }
@@ -146,6 +151,16 @@ extension SingleGameView {
             },
             secondaryButton: .destructive(Text("Cancel")) {
                 viewModel.showPlayerCards = true
+            }
+        )
+    }
+    
+    private func gameEndedAlert() -> Alert {
+        return Alert(
+            title: Text("Game ended!"),
+            message: Text("Points earned: \(viewModel.playerPoints)."),
+            dismissButton: .default(Text("Start again")) {
+                viewModel.exitGame()
             }
         )
     }
