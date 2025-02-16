@@ -13,6 +13,8 @@ struct SingleGameView: View {
     
     @State private var activeAlert: SingleGameAlert? = nil
     
+    @State private var countdownTime: Double = 5.0
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             gameSpace
@@ -25,8 +27,7 @@ struct SingleGameView: View {
         .persistentSystemOverlays(.hidden)
         .toolbarVisibility(.hidden, for: .navigationBar)
         .onAppear {
-            viewModel.createLevel()
-            startCountdown()
+            setupView()
         }
         .alert(item: $activeAlert) {
             alertType in
@@ -61,6 +62,7 @@ extension SingleGameView {
                 if viewModel.leftCard.isEmpty == false {
                     playerCards
                 }
+                countdownText
             }
             
             roundsRectangle
@@ -128,6 +130,17 @@ extension SingleGameView {
             .padding()
     }
     
+    private var countdownText: some View {
+        Text("\(String(format: "%.0f", countdownTime))")
+            .foregroundStyle(.white)
+            .font(.system(size: 100))
+            .bold()
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding()
+            .opacity(countdownTime > 0 ? 1 : 0)
+    }
+
+    
     private var exitGameButton: some View {
         Button("Exit game", systemImage: "xmark.circle") {
             withAnimation {
@@ -167,12 +180,29 @@ extension SingleGameView {
         )
     }
     
-    private func startCountdown() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+    private func startCountdownToActivateGame() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.5) {
             withAnimation {
                 viewModel.showPlayerCards = true
             }
             viewModel.activateSinglePlayer()
         }
     }
+    
+    private func startCountdownAnimation() {
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            if countdownTime > 0 {
+                countdownTime -= 1
+            } else {
+                timer.invalidate()
+            }
+        }
+    }
+    
+    private func setupView() {
+        viewModel.createLevel()
+        startCountdownToActivateGame()
+        startCountdownAnimation()
+    }
+
 }
