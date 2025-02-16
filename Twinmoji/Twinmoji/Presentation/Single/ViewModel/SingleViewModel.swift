@@ -26,10 +26,6 @@ final class SingleViewModel: ObservableObject {
     private var timer: Timer?
     @Published var timeRemaining: Double = 0.0
     
-    @Published var answerColor: Color = .clear
-    @Published var answerScale: CGFloat = 1.0
-    @Published var answerAnchor: UnitPoint = .center
-    
     @Published var playerPoints: Int = 0
     @Published var rounds: Int = 10
     @Published var hasGameEnded: Bool = false
@@ -47,7 +43,7 @@ final class SingleViewModel: ObservableObject {
             leftCard = Array(currentEmoji[0..<itemCount]).shuffled()
             
             // create an array with only one duplicated emoji (currentEmoji[0]) inserted randomly
-            // currentEmoji[itemCount + 1..<itemCount + itemCount] -> [10..<18] (8 emojis, that are not in left card
+            // currentEmoji[itemCount + 1..<itemCount + itemCount] -> [10..<18] (8 emojis, that are not in left card)
             var tempRightCard = Array(currentEmoji[itemCount + 1..<itemCount + itemCount])
             let duplicateIndex = Int.random(in: 0...tempRightCard.count)
             tempRightCard.insert(currentEmoji[0], at: duplicateIndex)
@@ -56,11 +52,9 @@ final class SingleViewModel: ObservableObject {
         }
     }
     
-    // TO DO: - activate time
     func activateSinglePlayer() {
-        guard gameState == .waiting else { return }
-        answerColor = .twinmojiRed
-        answerAnchor = .leading
+        guard gameState == .waiting, rounds > 0 else { return }
+        rounds -= 1
         gameState = .singlePlayerAnswering
         runClock()
     }
@@ -71,7 +65,7 @@ final class SingleViewModel: ObservableObject {
         guard currentEmoji == emojiToCheck, gameState != .waiting else { return }
         
         if gameState == .singlePlayerAnswering {
-            // extractpointsaftertimingout
+            penalizePointsForTimeOut()
             
             if rounds == 0 {
                 hasGameEnded = true
@@ -83,7 +77,6 @@ final class SingleViewModel: ObservableObject {
     
     private func runClock() {
         timeRemaining = answerTime
-        answerScale = 1
         let checkEmoji = currentEmoji
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
@@ -96,23 +89,17 @@ final class SingleViewModel: ObservableObject {
                 }
             }
         }
-        
-        withAnimation(.linear(duration: answerTime)) {
-            answerScale = 0
-        }
     }
     
     func checkAnswer(selectedEmoji: String) {
         if selectedEmoji == currentEmoji[0] {
             addPoints(timeRemaining: timeRemaining)
         } else {
-            // substract points
+            penalizePointsForFailure(timeRemaining: timeRemaining)
         }
         
         checkIfGameHasEndedOrContinues()
         
-        answerColor = .clear
-        answerScale = 0
         gameState = .waiting
     }
     
@@ -144,9 +131,9 @@ final class SingleViewModel: ObservableObject {
 
         let speedMultiplier: Double = {
             switch answerTime {
-            case 2.0: return 1.5  // Slow → Penaliza más
+            case 2.0: return 1.5  // Slow
             case 1.0: return 1.2  // Medium
-            case 0.5: return 1.0  // Fast → Penaliza menos
+            case 0.5: return 1.0  // Fast
             default: return 1.0
             }
         }()
@@ -160,6 +147,24 @@ final class SingleViewModel: ObservableObject {
         playerPoints -= max(penalty, 10)  // Min of 10 points of penalty
     }
 
+    private func penalizePointsForTimeOut() {
+        let basePenalty = 30
+
+        let difficultyMultiplier: Double = (itemCount == 9) ? 1.3 : 1.0
+
+        let speedMultiplier: Double = {
+            switch answerTime {
+            case 2.0: return 1.5  // Slow
+            case 1.0: return 1.2  // Medium
+            case 0.5: return 1.0  // Fast
+            default: return 1.0
+            }
+        }()
+
+        let penalty = Int(Double(basePenalty) * difficultyMultiplier * speedMultiplier)
+
+        playerPoints -= max(penalty, 5)
+    }
     
     private func checkIfGameHasEndedOrContinues() {
         if rounds == 0 {
