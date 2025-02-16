@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum GameTurn: String {
+enum BattleGameTurn: String {
     case player1 = "Player 1's turn"
     case player2 = "Player 2's turn"
 }

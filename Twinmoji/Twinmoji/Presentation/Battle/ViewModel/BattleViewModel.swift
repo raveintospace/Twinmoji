@@ -22,7 +22,7 @@ final class BattleViewModel: ObservableObject {
     @Published var rightCard: [String] = []
     
     @Published var gameState: GameState = .waiting
-    @Published var gameTurn: GameTurn = Bool.random() ? .player1 : .player2
+    @Published var gameTurn: BattleGameTurn = Bool.random() ? .player1 : .player2
     
     @Published var player1Score: Int = 0
     @Published var player2Score: Int = 0

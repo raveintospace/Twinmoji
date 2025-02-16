@@ -11,6 +11,8 @@ struct SingleGameView: View {
     
     @ObservedObject var viewModel: SingleViewModel
     
+    @State private var activeAlert: SingleGameAlert? = nil
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             gameSpace
@@ -24,6 +26,16 @@ struct SingleGameView: View {
         .toolbarVisibility(.hidden, for: .navigationBar)
         .onAppear {
             viewModel.createLevel()
+            startCountdown()
+        }
+        .alert(item: $activeAlert) {
+            alertType in
+            switch alertType {
+            case .hasGameFinished:
+                return exitGameAlert()
+            case .resetGame:
+                return exitGameAlert()
+            }
         }
     }
 }
@@ -98,17 +110,8 @@ extension SingleGameView {
             })
         }
         .padding(.horizontal, 10)
-    }
-    
-    private var exitGameButton: some View {
-        Button("Exit game", systemImage: "xmark.circle") {
-            // opaque card & show alert
-        }
-        .symbolVariant(.fill)
-        .labelStyle(.iconOnly)
-        .font(.largeTitle)
-        .tint(.white)
-        .padding(40)
+        .opacity(viewModel.showPlayerCards ? 1 : 0)
+        .disabled(!viewModel.showPlayerCards)
     }
     
     private var timeLeftText: some View {
@@ -118,5 +121,41 @@ extension SingleGameView {
             .bold()
             .frame(maxWidth: .infinity, alignment: .center)
             .padding()
+    }
+    
+    private var exitGameButton: some View {
+        Button("Exit game", systemImage: "xmark.circle") {
+            withAnimation {
+                viewModel.showPlayerCards = false
+                activeAlert = .resetGame
+            }
+        }
+        .symbolVariant(.fill)
+        .labelStyle(.iconOnly)
+        .font(.largeTitle)
+        .tint(.white)
+        .padding(40)
+    }
+    
+    private func exitGameAlert() -> Alert {
+        return Alert(
+            title: Text("Exit game?"),
+            message: Text("Are you sure you want to exit the game?"),
+            primaryButton: .default(Text("Exit")) {
+                viewModel.exitGame()
+            },
+            secondaryButton: .destructive(Text("Cancel")) {
+                viewModel.showPlayerCards = true
+            }
+        )
+    }
+    
+    private func startCountdown() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            withAnimation {
+                viewModel.showPlayerCards = true
+            }
+            viewModel.activateSinglePlayer()
+        }
     }
 }

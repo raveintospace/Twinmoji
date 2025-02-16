@@ -30,6 +30,8 @@ final class SingleViewModel: ObservableObject {
     @Published var rounds: Int = 0
     @Published var hasGameEnded: Bool = false
     
+    @Published var showPlayerCards: Bool = false
+    
     // MARK: - MenuView properties
     @Published var answerTime: Double = 1.0
     @Published var itemCount: Int = 9

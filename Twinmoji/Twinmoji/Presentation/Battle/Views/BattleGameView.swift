@@ -11,7 +11,7 @@ struct BattleGameView: View {
     
     @ObservedObject var viewModel: BattleViewModel
     
-    @State private var activeAlert: GameAlert? = nil
+    @State private var activeAlert: BattleGameAlert? = nil
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -115,6 +115,15 @@ extension BattleGameView {
         .disabled(viewModel.gameTurn != .player1)
     }
     
+    private var playerTurnTitle: some View {
+        Text(viewModel.gameTurn.rawValue)
+            .foregroundStyle(.white)
+            .font(.system(size: 24))
+            .bold()
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding()
+    }
+    
     private var exitGameButton: some View {
         Button("Exit game", systemImage: "xmark.circle") {
             activeAlert = .resetGame
@@ -126,13 +135,15 @@ extension BattleGameView {
         .padding(40)
     }
     
-    private var playerTurnTitle: some View {
-        Text(viewModel.gameTurn.rawValue)
-            .foregroundStyle(.white)
-            .font(.system(size: 24))
-            .bold()
-            .frame(maxWidth: .infinity, alignment: .center)
-            .padding()
+    private func exitGameAlert() -> Alert {
+        return Alert(
+            title: Text("Exit game?"),
+            message: Text("Are you sure you want to exit the game?"),
+            primaryButton: .default(Text("Exit")) {
+                viewModel.exitGame()
+            },
+            secondaryButton: .destructive(Text("Cancel"))
+        )
     }
     
     private func gameWonAlert() -> Alert {
@@ -166,16 +177,5 @@ extension BattleGameView {
             dismissButton: .default(Text("Start again")) {
             viewModel.exitGame()
         })
-    }
-    
-    private func exitGameAlert() -> Alert {
-        return Alert(
-            title: Text("Exit game?"),
-            message: Text("Are you sure you want to exit the game?"),
-            primaryButton: .default(Text("Exit")) {
-                viewModel.exitGame()
-            },
-            secondaryButton: .destructive(Text("Cancel"))
-        )
     }
 }
