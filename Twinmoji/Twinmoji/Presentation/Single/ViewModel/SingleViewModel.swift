@@ -27,7 +27,7 @@ final class SingleViewModel: ObservableObject {
     @Published var timeRemaining: Double = 0.0
     
     @Published var playerPoints: Int = 0
-    @Published var rounds: Int = 10
+    @Published var rounds: Int = 0
     @Published var hasGameEnded: Bool = false
     
     // MARK: - MenuView properties
@@ -53,8 +53,8 @@ final class SingleViewModel: ObservableObject {
     }
     
     func activateSinglePlayer() {
-        guard gameState == .waiting, rounds > 0 else { return }
-        rounds -= 1
+        guard gameState == .waiting, rounds < 10 else { return }
+        rounds += 1
         gameState = .singlePlayerAnswering
         runClock()
     }
@@ -67,7 +67,7 @@ final class SingleViewModel: ObservableObject {
         if gameState == .singlePlayerAnswering {
             penalizePointsForTimeOut()
             
-            if rounds == 0 {
+            if rounds == 10 {
                 hasGameEnded = true
             }
             
@@ -167,7 +167,7 @@ final class SingleViewModel: ObservableObject {
     }
     
     private func checkIfGameHasEndedOrContinues() {
-        if rounds == 0 {
+        if rounds == 10 {
             hasGameEnded = true
         } else {
             createLevel()
@@ -177,7 +177,7 @@ final class SingleViewModel: ObservableObject {
     func exitGame() {
         timer?.invalidate()
         playerPoints = 0
-        rounds = 10
+        rounds = 0
         hasGameEnded = false
         isGameActive = false
     }

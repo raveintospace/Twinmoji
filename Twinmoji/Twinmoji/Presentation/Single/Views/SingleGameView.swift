@@ -15,11 +15,11 @@ struct SingleGameView: View {
         ZStack(alignment: .topTrailing) {
             gameSpace
             exitGameButton
-            playerTurnTitle
+            timeLeftText
         }
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.orange)
+        .background(TwinmojiGradient())
         .persistentSystemOverlays(.hidden)
         .toolbarVisibility(.hidden, for: .navigationBar)
         .onAppear {
@@ -37,13 +37,49 @@ struct SingleGameView: View {
 extension SingleGameView {
     
     private var gameSpace: some View {
-        ZStack {
-            TwinmojiGradient()
+        HStack(spacing: 0) {
+            pointsRectangle
             
-            if viewModel.leftCard.isEmpty == false {
-                playerCards
+            ZStack {
+                if viewModel.leftCard.isEmpty == false {
+                    playerCards
+                }
             }
+            
+            roundsRectangle
         }
+    }
+    
+    private var pointsRectangle: some View {
+        Rectangle()
+            .fill(.clear)
+            .frame(minWidth: 30)
+            .overlay(
+                VStack(alignment: .center) {
+                    Text("Points:")
+                    Text(String(viewModel.playerPoints))
+                }
+                    .fixedSize()
+                    .font(.system(size: 22))
+                    .foregroundStyle(.white)
+                    .bold()
+            )
+    }
+    
+    private var roundsRectangle: some View {
+        Rectangle()
+            .fill(.clear)
+            .frame(minWidth: 30)
+            .overlay(
+                VStack(alignment: .center) {
+                    Text("Rounds:")
+                    Text("\(viewModel.rounds) / 10")
+                }
+                    .fixedSize()
+                    .font(.system(size: 22))
+                    .foregroundStyle(.white)
+                    .bold()
+            )
     }
     
     private var playerCards: some View {
@@ -66,7 +102,7 @@ extension SingleGameView {
     
     private var exitGameButton: some View {
         Button("Exit game", systemImage: "xmark.circle") {
-            // do something
+            // opaque card & show alert
         }
         .symbolVariant(.fill)
         .labelStyle(.iconOnly)
@@ -75,8 +111,8 @@ extension SingleGameView {
         .padding(40)
     }
     
-    private var playerTurnTitle: some View {
-        Text("countdown")
+    private var timeLeftText: some View {
+        Text("Time left: \(String(format: "%.2f", viewModel.timeRemaining))")
             .foregroundStyle(.white)
             .font(.system(size: 24))
             .bold()
