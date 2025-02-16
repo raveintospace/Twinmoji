@@ -41,7 +41,7 @@ extension BattleRulesView {
     private var VStackOfRules: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("- The objective of the game is to find the only identical emoji between the two cards before time runs out.")
-            Text("- If it's Player 1's turn, Player 2 must start the countdown by tapping their colored area, and Player 1 must tap the repeated emoji on time.")
+            Text("- If it's Player 1's turn, Player 2 must start the countdown by tapping their colored area, and then Player 1 must tap the repeated emoji on time.")
             Text("- The same logic applies to Player 2's turn, but in reverse.")
             Text("- When a player finds the identical emoji, they earn one point. If they miss, they lose one point.")
             Text("- The first player to reach 5 points wins the game, but the first to reach -5 loses the game.")
