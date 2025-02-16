@@ -157,6 +157,8 @@ extension SingleGameView {
         .font(.largeTitle)
         .tint(.white)
         .padding(40)
+        .opacity(viewModel.showPlayerCards ? 1 : 0)
+        .disabled(!viewModel.showPlayerCards)
     }
     
     private func exitGameAlert() -> Alert {
