@@ -40,9 +40,10 @@ extension SingleRulesView {
     
     private var VStackOfRules: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("- The objective of the game is to find the one identical emoji between the two cards before time runs out.")
-            Text("- The player earns points based on the time remaining when they find the matching emoji, the faster, the more points earned.")
-            Text("- If the player fails to tap the correct emoji, points are deducted based on the remaining time, the faster, the more points lost.")
+            Text("- The objective of the game is to find the only identical emoji between the two cards before time runs out.")
+            Text("- Points are awarded based on the remaining time, the available time for the round and the number of emojis displayed. The faster you find the match, the more points you earn.")
+            Text("- If you tap a wrong emoji or fail to respond before time runs out, points are deducted based on the same factors. The faster the mistake, the higher the penalty.")
+            Text("- Tapping a wrong emoji is more penalizing than failing to respond.")
             Text("- The game consists of ten rounds in total.")
         }
         .multilineTextAlignment(.leading)
