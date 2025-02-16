@@ -5,7 +5,7 @@
 //  Created by Uri on 20/1/25.
 //
 
-enum Deck: String, CaseIterable {
+enum Deck: String, CaseIterable, Codable {
     case animals = "Animals"
     case faces = "Faces"
     case flags = "Flags"
