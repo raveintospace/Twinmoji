@@ -33,7 +33,7 @@ final class SingleViewModel: ObservableObject {
     @Published var showPlayerCards: Bool = false
     
     // MARK: - MenuView properties
-    @Published var answerTime: Double = 1.0
+    @Published var answerTime: Double = 2.5
     @Published var itemCount: Int = 9
     @Published var isGameActive: Bool = false
     
@@ -84,16 +84,26 @@ final class SingleViewModel: ObservableObject {
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
             DispatchQueue.main.async {
                 if self.timeRemaining > 0 {
-                    self.timeRemaining -= 0.1
-                } else {
+                    self.timeRemaining = max(self.timeRemaining - 0.1, 0)
+                }
+                
+                if self.timeRemaining == 0 {
                     self.timer?.invalidate()
                     self.timeOut(emojiToCheck: checkEmoji)
+                    
+                    // create new level
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        self.createLevel()
+                        self.activateSinglePlayer()
+                    }
                 }
             }
         }
     }
     
     func checkAnswer(selectedEmoji: String) {
+        gameState = .waiting
+        
         if selectedEmoji == currentEmoji[0] {
             addPoints(timeRemaining: timeRemaining)
         } else {
@@ -101,8 +111,6 @@ final class SingleViewModel: ObservableObject {
         }
         
         checkIfGameHasEndedOrContinues()
-        
-        gameState = .waiting
     }
     
     private func addPoints(timeRemaining: Double) {
@@ -112,9 +120,9 @@ final class SingleViewModel: ObservableObject {
         
         let speedMultiplier: Double = {
             switch answerTime {
-            case 2.0: return 1.0  // Slow
-            case 1.0: return 1.2  // Medium
-            case 0.5: return 1.5  // Fast
+            case 5.0: return 1.0  // Slow
+            case 2.5: return 1.2  // Medium
+            case 1.5: return 1.5  // Fast
             default: return 1.0
             }
         }()
@@ -133,9 +141,9 @@ final class SingleViewModel: ObservableObject {
 
         let speedMultiplier: Double = {
             switch answerTime {
-            case 2.0: return 1.5  // Slow
-            case 1.0: return 1.2  // Medium
-            case 0.5: return 1.0  // Fast
+            case 5.0: return 1.5  // Slow
+            case 2.5: return 1.2  // Medium
+            case 1.5: return 1.0  // Fast
             default: return 1.0
             }
         }()
@@ -156,9 +164,9 @@ final class SingleViewModel: ObservableObject {
 
         let speedMultiplier: Double = {
             switch answerTime {
-            case 2.0: return 1.5  // Slow
-            case 1.0: return 1.2  // Medium
-            case 0.5: return 1.0  // Fast
+            case 5.0: return 1.5  // Slow
+            case 2.5: return 1.2  // Medium
+            case 1.5: return 1.0  // Fast
             default: return 1.0
             }
         }()
@@ -173,6 +181,7 @@ final class SingleViewModel: ObservableObject {
             hasGameEnded = true
         } else {
             createLevel()
+            activateSinglePlayer()
         }
     }
     

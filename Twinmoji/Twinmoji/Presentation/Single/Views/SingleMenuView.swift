@@ -104,9 +104,9 @@ extension SingleMenuView {
     
     private var answerTimePicker: some View {
         Picker("Timeout", selection: $viewModel.answerTime) {
-            Text("Slow").tag(2.0)
-            Text("Medium").tag(1.0)
-            Text("Fast").tag(0.5)
+            Text("Slow").tag(5.0)
+            Text("Medium").tag(2.5)
+            Text("Fast").tag(1.5)
         }
         .pickerStyle(.segmented)
         .padding(.bottom)
