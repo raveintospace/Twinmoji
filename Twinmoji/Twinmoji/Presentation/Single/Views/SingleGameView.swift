@@ -131,6 +131,7 @@ extension SingleGameView {
     private var exitGameButton: some View {
         Button("Exit game", systemImage: "xmark.circle") {
             withAnimation {
+                viewModel.pauseGame()
                 viewModel.showPlayerCards = false
                 activeAlert = .resetGame
             }
@@ -151,6 +152,7 @@ extension SingleGameView {
             },
             secondaryButton: .destructive(Text("Cancel")) {
                 viewModel.showPlayerCards = true
+                viewModel.resumeGame()
             }
         )
     }
@@ -158,7 +160,7 @@ extension SingleGameView {
     private func gameEndedAlert() -> Alert {
         return Alert(
             title: Text("Game ended!"),
-            message: Text("Points earned: \(viewModel.playerPoints)."),
+            message: Text("Points earned: \(viewModel.playerPoints)"),
             dismissButton: .default(Text("Start again")) {
                 viewModel.exitGame()
             }

@@ -25,6 +25,7 @@ final class SingleViewModel: ObservableObject {
     
     private var timer: Timer?
     @Published var timeRemaining: Double = 0.0
+    private var pausedTimeRemaining: Double = 0.0
     
     @Published var playerPoints: Int = 0
     @Published var rounds: Int = 0
@@ -39,6 +40,8 @@ final class SingleViewModel: ObservableObject {
     
     // MARK: - Methods
     func createLevel() {
+        guard gameState != .paused else { return }
+        
         currentEmoji = allEmojis.shuffled()
         
         withAnimation(.spring(duration: 0.75)) {
@@ -78,6 +81,8 @@ final class SingleViewModel: ObservableObject {
     }
     
     private func runClock() {
+        guard gameState != .paused else { return }
+        
         timeRemaining = answerTime
         let checkEmoji = currentEmoji
         
@@ -185,6 +190,18 @@ final class SingleViewModel: ObservableObject {
             createLevel()
             activateSinglePlayer()
         }
+    }
+    
+    func pauseGame() {
+        gameState = .paused
+        timer?.invalidate()
+        pausedTimeRemaining = timeRemaining
+    }
+    
+    func resumeGame() {
+        gameState = .singlePlayerAnswering
+        runClock()
+        timeRemaining = pausedTimeRemaining
     }
     
     func exitGame() {

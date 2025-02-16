@@ -8,6 +8,7 @@
 import Foundation
 
 enum GameState {
+    case paused
     case player1Answering
     case player2Answering
     case singlePlayerAnswering
