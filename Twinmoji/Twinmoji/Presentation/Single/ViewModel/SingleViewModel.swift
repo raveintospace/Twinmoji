@@ -85,7 +85,7 @@ final class SingleViewModel: ObservableObject {
                     self.timeRemaining -= 0.1
                 } else {
                     self.timer?.invalidate()
-                    self.timeOut(emojiToCheck: self.currentEmoji)
+                    self.timeOut(emojiToCheck: checkEmoji)
                 }
             }
         }
