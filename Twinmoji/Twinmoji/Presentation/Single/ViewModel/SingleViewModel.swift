@@ -137,6 +137,30 @@ final class SingleViewModel: ObservableObject {
         playerPoints += max(score, 10)  // Min of 10 points in worst case scenario
     }
     
+    private func penalizePointsForFailure(timeRemaining: Double) {
+        let basePenalty = 50
+        
+        let difficultyMultiplier: Double = (itemCount == 9) ? 1.3 : 1.0  // Easy: 1.3, Hard: 1.0
+
+        let speedMultiplier: Double = {
+            switch answerTime {
+            case 2.0: return 1.5  // Slow → Penaliza más
+            case 1.0: return 1.2  // Medium
+            case 0.5: return 1.0  // Fast → Penaliza menos
+            default: return 1.0
+            }
+        }()
+
+        // Bigger penalty when answering faster, to avoid "lottery tactic"
+        let timeFactor = 1.0 + (timeRemaining / answerTime)
+
+        // Final penalty calculation
+        let penalty = Int(Double(basePenalty) * difficultyMultiplier * speedMultiplier * timeFactor)
+
+        playerPoints -= max(penalty, 10)  // Min of 10 points of penalty
+    }
+
+    
     private func checkIfGameHasEndedOrContinues() {
         if rounds == 0 {
             hasGameEnded = true
