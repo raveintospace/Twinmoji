@@ -48,8 +48,10 @@ struct SingleMenuView: View {
                 switch sheet {
                 case .rules:
                     SingleRulesView()
+                        .preferredColorScheme(.light)
                 case .scoreboard:
                     SingleScoreboardView(viewModel: viewModel)
+                        .preferredColorScheme(.light)
                 }
             }
             .toolbarVisibility(.hidden, for: .navigationBar)

@@ -81,3 +81,5 @@ extension SingleScoreboardView {
 // MARK: - TO DO
 // set initial time in singleviewmodel
 // scoreboard has to show scores from viewmodel, not from stub
+// scoreform in dark mode
+// fix answer time in single mode to have medium highlighted - clean project

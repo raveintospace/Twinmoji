@@ -24,6 +24,8 @@ struct SingleScoreForm: View {
     var body: some View {
         NavigationStack {
             ZStack {
+                TwinmojiGradient()
+                
                 Form {
                     Section(header: Text("Player name")) {
                         TextField("Player name", text: $playerName)
@@ -40,8 +42,7 @@ struct SingleScoreForm: View {
                             }
                     }
                     Section(header: Text("Deck played")) {
-                        Text("decks"//\(viewModel.memorizeDecks[viewModel.deckIndex].name)"
-                        )
+                        Text("\(viewModel.emojisDeck.rawValue)")
                     }
                     Section(header: Text("Total matches")) {
                         Text("\(viewModel.matches)")
@@ -63,6 +64,11 @@ struct SingleScoreForm: View {
                         .disabled(playerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     }
                 }
+                .padding()
+                .foregroundStyle(.black)
+                .background(.white)
+                .clipShape(.rect(cornerRadius: 20))
+                .shadow(radius: 10)
                 .onAppear {
                     playerNameFocused = true
                 }
@@ -75,8 +81,16 @@ struct SingleScoreForm: View {
                     )
                 }
             }
-            .navigationTitle("Save your score")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("")
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Save your score")
+                        .font(.title2)
+                        .bold()
+                        .foregroundColor(.white)
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     exitScoreFormButton
@@ -101,6 +115,6 @@ extension SingleScoreForm {
         .symbolVariant(.fill)
         .labelStyle(.iconOnly)
         .font(.largeTitle)
-        .tint(.black)
+        .tint(.white)
     }
 }

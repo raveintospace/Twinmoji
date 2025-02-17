@@ -37,6 +37,7 @@ struct BattleMenuView: View {
             .background(TwinmojiGradient())
             .sheet(isPresented: $showBattleRulesView) {
                 BattleRulesView()
+                    .preferredColorScheme(.light)
             }
             .toolbarVisibility(.hidden, for: .navigationBar)
         }
