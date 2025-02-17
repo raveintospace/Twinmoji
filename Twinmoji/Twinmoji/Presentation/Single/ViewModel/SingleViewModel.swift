@@ -27,7 +27,7 @@ final class SingleViewModel: ObservableObject {
     @Published var timeRemaining: Double = 0.0
     private var pausedTimeRemaining: Double = 0.0
     
-    @Published var playerPoints: Int = 0
+    @Published var playerScore: Int = 0
     @Published var matches: Int = 0
     @Published var rounds: Int = 0
     @Published var hasGameEnded: Bool = false
@@ -140,7 +140,7 @@ final class SingleViewModel: ObservableObject {
         let timeFactor = timeRemaining / answerTime
         let score = Int(Double(baseScore) * timeFactor * difficultyMultiplier * speedMultiplier)
         
-        playerPoints += max(score, 10)  // Min of 10 points in worst case scenario
+        playerScore += max(score, 10)  // Min of 10 points in worst case scenario
     }
     
     private func addMatch() {
@@ -167,7 +167,7 @@ final class SingleViewModel: ObservableObject {
         // Final penalty calculation
         let penalty = Int(Double(basePenalty) * difficultyMultiplier * speedMultiplier * timeFactor)
 
-        playerPoints -= max(penalty, 10)  // Min of 10 points of penalty
+        playerScore -= max(penalty, 10)  // Min of 10 points of penalty
     }
 
     private func penalizePointsForTimeOut() {
@@ -186,7 +186,7 @@ final class SingleViewModel: ObservableObject {
 
         let penalty = Int(Double(basePenalty) * difficultyMultiplier * speedMultiplier)
 
-        playerPoints -= max(penalty, 5)
+        playerScore -= max(penalty, 5)
     }
     
     private func checkIfGameHasEndedOrContinues() {
@@ -212,7 +212,7 @@ final class SingleViewModel: ObservableObject {
     
     func exitGame() {
         timer?.invalidate()
-        playerPoints = 0
+        playerScore = 0
         matches = 0
         rounds = 0
         hasGameEnded = false

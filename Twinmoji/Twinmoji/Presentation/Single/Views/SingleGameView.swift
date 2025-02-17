@@ -56,7 +56,7 @@ extension SingleGameView {
     
     private var gameSpace: some View {
         HStack(spacing: 0) {
-            pointsRectangle
+            scoreAndMatchesRectangle
             
             ZStack {
                 if viewModel.leftCard.isEmpty == false {
@@ -69,14 +69,14 @@ extension SingleGameView {
         }
     }
     
-    private var pointsRectangle: some View {
+    private var scoreAndMatchesRectangle: some View {
         Rectangle()
             .fill(.clear)
             .frame(minWidth: 30)
             .overlay(
                 VStack(alignment: .center) {
-                    Text("Points:")
-                    Text(String(viewModel.playerPoints))
+                    Text("Score:")
+                    Text(String(viewModel.playerScore))
                     Divider()
                     Text("Matches:")
                     Text(String(viewModel.matches))
@@ -178,7 +178,7 @@ extension SingleGameView {
     private func gameEndedAlert() -> Alert {
         return Alert(
             title: Text("Game ended!"),
-            message: Text("Points earned: \(viewModel.playerPoints)"),
+            message: Text("Final score: \(viewModel.playerScore)"),
             dismissButton: .default(Text("Start again")) {
                 viewModel.exitGame()
             }
@@ -209,5 +209,4 @@ extension SingleGameView {
         startCountdownToActivateGame()
         startCountdownAnimation()
     }
-
 }
