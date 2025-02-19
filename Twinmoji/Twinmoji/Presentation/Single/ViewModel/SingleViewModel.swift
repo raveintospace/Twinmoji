@@ -242,6 +242,8 @@ final class SingleViewModel: ObservableObject {
     }
     
     func isNewHighScore(score: Int) -> Bool {
+        guard score > 0 else { return false }
+        
         if scoreboard.isEmpty {
             return true
         }

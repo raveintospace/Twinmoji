@@ -176,13 +176,26 @@ extension SingleGameView {
     }
     
     private func gameEndedAlert() -> Alert {
-        return Alert(
-            title: Text("Game ended!"),
-            message: Text("Final score: \(viewModel.playerScore)"),
-            dismissButton: .default(Text("Start again")) {
-                viewModel.exitGame()
-            }
-        )
+        if !viewModel.isScoreboardFull() && viewModel.isNewHighScore(score: viewModel.playerScore) {
+            return Alert(
+                title: Text("Game ended with a new high score!"),
+                message: Text("Final score: \(viewModel.playerScore)"),
+                primaryButton: .default(Text("Save score")) {
+                    // navigate to singlescoreform
+                },
+                secondaryButton: .default(Text("Start again")) {
+                    viewModel.exitGame()
+                }
+            )
+        } else {
+            return Alert(
+                title: Text("Game ended!"),
+                message: Text("Final score: \(viewModel.playerScore)"),
+                dismissButton: .default(Text("Start again")) {
+                    viewModel.exitGame()
+                }
+            )
+        }
     }
     
     private func startCountdownToActivateGame() {
