@@ -39,6 +39,11 @@ final class SingleViewModel: ObservableObject {
     @Published var itemCount: Int = 9
     @Published var isGameActive: Bool = false
     
+    // MARK: - Init
+    init() {
+        scoreboard = getScoreboard()
+    }
+    
     // MARK: - Methods
     func createLevel() {
         guard gameState != .paused else { return }
@@ -217,5 +222,61 @@ final class SingleViewModel: ObservableObject {
         rounds = 0
         hasGameEnded = false
         isGameActive = false
+    }
+    
+    // MARK: - Scoreboard
+    @Published var scoreboard: [Scorecard] = []
+    @Published var showScoreSavedConfirmation: Bool = false
+    @Published var showScoreboardResetConfirmation: Bool = false
+    
+    private let scoreboardLimit: Int = 10
+    private let scoreboardUserDefaultsKey: String = "scoreboard"
+    
+    func saveScore(player: String, deck: String, matches: Int, score: Int) {
+        if isScoreboardFull() && isNewHighScore(score: score) {
+            removeLowestScore()
+        }
+        scoreboard.append(Scorecard(player: player, deck: emojisDeck, matches: matches, score: score))
+        encodeAndSaveScoreboard()
+        showScoreSavedConfirmation = true
+    }
+    
+    func isNewHighScore(score: Int) -> Bool {
+        if scoreboard.isEmpty {
+            return true
+        }
+        return scoreboard.contains { $0.score < score }
+    }
+    
+    func isScoreboardFull() -> Bool {
+        return scoreboard.count == scoreboardLimit
+    }
+    
+    func resetScoreboard() {
+        scoreboard.removeAll()
+        encodeAndSaveScoreboard()
+        showScoreboardResetConfirmation = true
+    }
+    
+    private func removeLowestScore() {
+        guard let lowestScore = scoreboard.min(by: { $0.score < $1.score })?.score else { return }
+        if let index = scoreboard.firstIndex(where: { $0.score == lowestScore }) {
+            scoreboard.remove(at: index)
+        }
+    }
+    
+    private func encodeAndSaveScoreboard() {
+        if let encoded = try? JSONEncoder().encode(scoreboard) {
+            UserDefaults.standard.set(encoded, forKey: scoreboardUserDefaultsKey)
+        }
+    }
+    
+    private func getScoreboard() -> [Scorecard] {
+        if let scoreboardData = UserDefaults.standard.object(forKey: scoreboardUserDefaultsKey) as? Data {
+            if let scoreboard = try? JSONDecoder().decode([Scorecard].self, from: scoreboardData) {
+                return scoreboard
+            }
+        }
+        return []
     }
 }

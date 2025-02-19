@@ -54,7 +54,7 @@ extension SingleScoreboardView {
                     .frame(minHeight: 3)
                     .overlay(.black)
                 
-                ForEach(Scorecard.stub.sorted(by: { $0.score > $1.score })) { score in
+                ForEach(viewModel.scoreboard.sorted(by: { $0.score > $1.score })) { score in
                     GridRow(alignment: .center) {
                         Text(score.player)
                         Text(score.deck.rawValue)
