@@ -58,9 +58,10 @@ struct SingleScoreForm: View {
                     }
                     Section {
                         Button("Save score") {
-                            //saveScore()
+                            saveScore()
                             dismiss()
                         }
+                        .foregroundStyle(.blue)
                         .disabled(playerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     }
                 }
@@ -116,5 +117,9 @@ extension SingleScoreForm {
         .labelStyle(.iconOnly)
         .font(.largeTitle)
         .tint(.white)
+    }
+    
+    private func saveScore() {
+        viewModel.saveScore(player: playerName, deck: viewModel.emojisDeck.rawValue, matches: viewModel.matches, score: viewModel.playerScore)
     }
 }

@@ -101,7 +101,7 @@ extension SingleGameView {
             .overlay(
                 VStack(alignment: .center) {
                     Text("Rounds:")
-                    Text("\(viewModel.rounds) / 10")
+                    Text("\(viewModel.rounds) / \(viewModel.roundsToPlay)")
                 }
                     .fixedSize()
                     .font(.system(size: 22))

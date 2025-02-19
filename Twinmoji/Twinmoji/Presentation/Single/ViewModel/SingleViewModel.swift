@@ -30,6 +30,7 @@ final class SingleViewModel: ObservableObject {
     @Published var playerScore: Int = 10000
     @Published var matches: Int = 0
     @Published var rounds: Int = 0
+    private(set) var roundsToPlay: Int = 5
     @Published var hasGameEnded: Bool = false
     
     @Published var showPlayerCards: Bool = false
@@ -64,7 +65,7 @@ final class SingleViewModel: ObservableObject {
     }
     
     func activateSinglePlayer() {
-        guard gameState == .waiting, rounds < 10 else { return }
+        guard gameState == .waiting, rounds < roundsToPlay else { return }
         rounds += 1
         gameState = .singlePlayerAnswering
         runClock()
@@ -78,7 +79,7 @@ final class SingleViewModel: ObservableObject {
         if gameState == .singlePlayerAnswering {
             penalizePointsForTimeOut()
             
-            if rounds == 10 {
+            if rounds == roundsToPlay {
                 hasGameEnded = true
             }
             
@@ -195,7 +196,7 @@ final class SingleViewModel: ObservableObject {
     }
     
     private func checkIfGameHasEndedOrContinues() {
-        if rounds == 10 {
+        if rounds == roundsToPlay {
             hasGameEnded = true
         } else {
             createLevel()
