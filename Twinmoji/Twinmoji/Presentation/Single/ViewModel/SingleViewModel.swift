@@ -35,8 +35,8 @@ final class SingleViewModel: ObservableObject {
     
     @Published var showPlayerCards: Bool = false
     
-    // MARK: - MenuView properties
-    @Published var answerTime: Double = 0.5
+    // MARK: - MenuView default properties
+    @Published var answerTime: Double = 2.5
     @Published var itemCount: Int = 9
     @Published var isGameActive: Bool = false
     

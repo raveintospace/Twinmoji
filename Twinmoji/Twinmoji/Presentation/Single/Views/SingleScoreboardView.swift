@@ -11,16 +11,27 @@ struct SingleScoreboardView: View {
     
     @ObservedObject var viewModel: SingleViewModel
     
+    @State private var showResetAlert: Bool = false
+    
     var body: some View {
         ZStack {
             Color.orange.opacity(0.7).ignoresSafeArea()
             
             VStack(spacing: 10) {
                 scoreGrid
-                CloseSheetButton()
+                scoreboardButtons
             }
             .foregroundStyle(.black)
             .padding()
+            .alert(isPresented: $showResetAlert) {
+                Alert(
+                    title: Text("Reset scoreboard"),
+                    message: Text("Do you want to erase the scores saved?"),
+                    primaryButton: .destructive(Text("Reset")) { viewModel.resetScoreboard()
+                    },
+                    secondaryButton: .default(Text("Discard"))
+                )
+            }
         }
     }
 }
@@ -74,12 +85,26 @@ extension SingleScoreboardView {
         .scrollIndicators(.hidden)
         .padding(.horizontal)
         .padding(.top, 20)
-
+    }
+    
+    private var resetScoreboardButton: some View {
+        Button("Reset") {
+            showResetAlert = true
+        }
+        .buttonStyle(.bordered)
+        .foregroundStyle(.white)
+        .background(.red)
+        .clipShape(.rect(cornerRadius: 30))
+    }
+    
+    private var scoreboardButtons: some View {
+        HStack(spacing: 8) {
+            CloseSheetButton()
+            resetScoreboardButton
+        }
     }
 }
 
 // MARK: - TO DO
-// set initial time in singleviewmodel
-// scoreboard has to show scores from viewmodel, not from stub
-// scoreform in dark mode
+// set initial default time in singleviewmodel to 2,5
 // fix answer time in single mode to have medium highlighted - clean project
