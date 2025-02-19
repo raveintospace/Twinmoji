@@ -43,6 +43,9 @@ struct SingleGameView: View {
         .sheet(isPresented: $showSingleScoreForm) {
             SingleScoreForm(viewModel: viewModel)
                 .preferredColorScheme(.light)
+                .onDisappear {
+                    // offer play again or exit
+                }
         }
         .onChange(of: viewModel.hasGameEnded) { _ , newValue in
             if newValue {

@@ -98,7 +98,7 @@ extension SingleScoreboardView {
     }
     
     private var scoreboardButtons: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 10) {
             CloseSheetButton()
             resetScoreboardButton
         }
