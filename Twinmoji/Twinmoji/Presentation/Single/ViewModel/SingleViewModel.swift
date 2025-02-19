@@ -27,7 +27,7 @@ final class SingleViewModel: ObservableObject {
     @Published var timeRemaining: Double = 0.0
     private var pausedTimeRemaining: Double = 0.0
     
-    @Published var playerScore: Int = 0
+    @Published var playerScore: Int = 10000
     @Published var matches: Int = 0
     @Published var rounds: Int = 0
     @Published var hasGameEnded: Bool = false

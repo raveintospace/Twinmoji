@@ -15,6 +15,8 @@ struct SingleGameView: View {
     
     @State private var countdownTime: Double = 5.0
     
+    @State private var showSingleScoreForm: Bool = false
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             gameSpace
@@ -37,6 +39,10 @@ struct SingleGameView: View {
             case .resetGame:
                 return exitGameAlert()
             }
+        }
+        .sheet(isPresented: $showSingleScoreForm) {
+            SingleScoreForm(viewModel: viewModel)
+                .preferredColorScheme(.light)
         }
         .onChange(of: viewModel.hasGameEnded) { _ , newValue in
             if newValue {
@@ -181,9 +187,9 @@ extension SingleGameView {
                 title: Text("Game ended with a new high score!"),
                 message: Text("Final score: \(viewModel.playerScore)"),
                 primaryButton: .default(Text("Save score")) {
-                    // navigate to singlescoreform
+                    showSingleScoreForm = true
                 },
-                secondaryButton: .default(Text("Start again")) {
+                secondaryButton: .destructive(Text("Start again")) {
                     viewModel.exitGame()
                 }
             )
