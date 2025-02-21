@@ -218,11 +218,22 @@ final class SingleViewModel: ObservableObject {
     
     func exitGame() {
         timer?.invalidate()
+        timer = nil
+        
+        gameState = .waiting
+        timeRemaining = 0.0
+        pausedTimeRemaining = 0.0
+        
         playerScore = 0
         matches = 0
         rounds = 0
         hasGameEnded = false
         isGameActive = false
+        showPlayerCards = false
+        
+        leftCard = []
+        rightCard = []
+        currentEmoji = []
     }
     
     // MARK: - Scoreboard
