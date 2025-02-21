@@ -105,7 +105,7 @@ final class SingleViewModel: ObservableObject {
                     
                     // create new level
                     if !self.hasGameEnded {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.createLevel()
                             self.activateSinglePlayer()
                         }
