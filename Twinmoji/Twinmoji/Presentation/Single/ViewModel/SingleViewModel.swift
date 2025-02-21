@@ -30,7 +30,7 @@ final class SingleViewModel: ObservableObject {
     @Published var playerScore: Int = 10000
     @Published var matches: Int = 0
     @Published var rounds: Int = 0
-    private(set) var roundsToPlay: Int = 5
+    private(set) var roundsToPlay: Int = 3
     @Published var hasGameEnded: Bool = false
     
     @Published var showPlayerCards: Bool = false
@@ -248,7 +248,7 @@ final class SingleViewModel: ObservableObject {
         if scoreboard.isEmpty {
             return true
         }
-        return scoreboard.contains { $0.score < score }
+        return scoreboard.allSatisfy { $0.score <= score }
     }
     
     func isScoreboardFull() -> Bool {

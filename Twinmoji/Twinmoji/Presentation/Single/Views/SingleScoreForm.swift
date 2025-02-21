@@ -147,6 +147,6 @@ extension SingleScoreForm {
     }
     
     private func exitToMainMenu() {
-        viewModel.isGameActive = false
+        viewModel.exitGame()
     }
 }
