@@ -30,14 +30,14 @@ final class SingleViewModel: ObservableObject {
     @Published var playerScore: Int = 0
     @Published var matches: Int = 0
     @Published var rounds: Int = 0
-    private(set) var roundsToPlay: Int = 3
+    private(set) var roundsToPlay: Int = 10
     
     @Published var hasGameEnded: Bool = false
     @Published var showPlayerCards: Bool = false
     
     private var isFirstLevel: Bool = true
     private let createLevelAnimationDuration: Double = 0.75
-    private let pauseToCreateNewLevel: Double: 0.5
+    private let pauseToCreateNewLevel: Double = 0.5
     
     // MARK: - MenuView default properties
     @Published var answerTime: Double = 2.5
@@ -119,7 +119,7 @@ final class SingleViewModel: ObservableObject {
                     
                     // create new level
                     if !self.hasGameEnded {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + pauseToCreateNewLevel) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + self.pauseToCreateNewLevel) {
                             self.createLevel()
                             self.activateSinglePlayer()
                         }

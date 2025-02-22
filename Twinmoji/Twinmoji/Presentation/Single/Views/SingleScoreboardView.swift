@@ -105,6 +105,3 @@ extension SingleScoreboardView {
     }
 }
 
-// MARK: - TO DO
-// set initial default time in singleviewmodel to 2,5
-// fix answer time in single mode to have medium highlighted - clean project
