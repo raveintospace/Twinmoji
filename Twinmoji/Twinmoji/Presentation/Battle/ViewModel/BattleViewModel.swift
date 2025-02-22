@@ -136,10 +136,7 @@ final class BattleViewModel: ObservableObject {
         answerColor = .clear
         answerScale = 0
         gameState = .waiting
-        
-        withAnimation(.smooth()) {
-            updatePlayerTurn()
-        }
+        updatePlayerTurn()
     }
     
     private func updatePlayerTurn() {
