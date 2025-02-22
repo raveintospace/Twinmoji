@@ -27,12 +27,12 @@ final class SingleViewModel: ObservableObject {
     @Published var timeRemaining: Double = 0.0
     private var pausedTimeRemaining: Double = 0.0
     
-    @Published var playerScore: Int = 10000
+    @Published var playerScore: Int = 0
     @Published var matches: Int = 0
     @Published var rounds: Int = 0
     private(set) var roundsToPlay: Int = 3
-    @Published var hasGameEnded: Bool = false
     
+    @Published var hasGameEnded: Bool = false
     @Published var showPlayerCards: Bool = false
     
     // MARK: - MenuView default properties
@@ -243,8 +243,6 @@ final class SingleViewModel: ObservableObject {
     
     // MARK: - Scoreboard
     @Published var scoreboard: [Scorecard] = []
-    @Published var showScoreSavedConfirmation: Bool = false
-    @Published var showScoreboardResetConfirmation: Bool = false
     
     private let scoreboardLimit: Int = 10
     private let scoreboardUserDefaultsKey: String = "scoreboard"
@@ -255,16 +253,20 @@ final class SingleViewModel: ObservableObject {
         }
         scoreboard.append(Scorecard(player: player, deck: emojisDeck, matches: matches, score: score))
         encodeAndSaveScoreboard()
-        showScoreSavedConfirmation = true
     }
     
     func isNewHighScore(score: Int) -> Bool {
         guard score > 0 else { return false }
         
-        if scoreboard.isEmpty {
+        if scoreboard.isEmpty || scoreboard.count < scoreboardLimit {
             return true
         }
-        return scoreboard.allSatisfy { $0.score <= score }
+        
+        if let lowestScore = scoreboard.min(by: { $0.score < $1.score })?.score {
+                return score > lowestScore
+        }
+        
+        return false
     }
     
     func isScoreboardFull() -> Bool {
@@ -274,7 +276,6 @@ final class SingleViewModel: ObservableObject {
     func resetScoreboard() {
         scoreboard.removeAll()
         encodeAndSaveScoreboard()
-        showScoreboardResetConfirmation = true
     }
     
     private func removeLowestScore() {
