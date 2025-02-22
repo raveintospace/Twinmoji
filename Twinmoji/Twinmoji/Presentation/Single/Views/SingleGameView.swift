@@ -117,13 +117,13 @@ extension SingleGameView {
         HStack {
             CardView(
                 card: viewModel.leftCard,
-                userCanAnswer: viewModel.gameState != .waiting,
+                userCanAnswer: viewModel.userCanAnswer(),
                 onSelect: { selectedEmoji in
                     viewModel.checkAnswer(selectedEmoji: selectedEmoji)
                 })
             
             CardView(card: viewModel.rightCard,
-                     userCanAnswer: viewModel.gameState != .waiting,
+                     userCanAnswer: viewModel.userCanAnswer(),
                      onSelect: { selectedEmoji in
                 viewModel.checkAnswer(selectedEmoji: selectedEmoji)
             })

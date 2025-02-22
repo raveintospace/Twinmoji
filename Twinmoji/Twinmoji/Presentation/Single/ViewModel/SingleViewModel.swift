@@ -37,6 +37,7 @@ final class SingleViewModel: ObservableObject {
     
     private var isFirstLevel: Bool = true
     private let createLevelAnimationDuration: Double = 0.75
+    private let pauseToCreateNewLevel: Double: 0.5
     
     // MARK: - MenuView default properties
     @Published var answerTime: Double = 2.5
@@ -118,7 +119,7 @@ final class SingleViewModel: ObservableObject {
                     
                     // create new level
                     if !self.hasGameEnded {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + pauseToCreateNewLevel) {
                             self.createLevel()
                             self.activateSinglePlayer()
                         }
@@ -141,7 +142,7 @@ final class SingleViewModel: ObservableObject {
             penalizePointsForFailure(timeRemaining: timeRemaining)
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + pauseToCreateNewLevel) {
             self.checkIfGameHasEndedOrContinues()
         }
     }
@@ -219,6 +220,14 @@ final class SingleViewModel: ObservableObject {
         } else {
             createLevel()
             activateSinglePlayer()
+        }
+    }
+    
+    func userCanAnswer() -> Bool {
+        if gameState == .singlePlayerAnswering {
+            return true
+        } else {
+            return false
         }
     }
     
