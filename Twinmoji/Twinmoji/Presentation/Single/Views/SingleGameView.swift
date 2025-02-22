@@ -174,10 +174,10 @@ extension SingleGameView {
         return Alert(
             title: Text("Exit game?"),
             message: Text("Are you sure you want to exit the game?"),
-            primaryButton: .default(Text("Exit")) {
+            primaryButton: .destructive(Text("Exit")) {
                 viewModel.exitGame()
             },
-            secondaryButton: .destructive(Text("Cancel")) {
+            secondaryButton: .default(Text("Cancel")) {
                 viewModel.showPlayerCards = true
                 viewModel.resumeGame()
             }
