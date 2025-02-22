@@ -35,6 +35,9 @@ final class SingleViewModel: ObservableObject {
     @Published var hasGameEnded: Bool = false
     @Published var showPlayerCards: Bool = false
     
+    private var isFirstLevel: Bool = true
+    private let createLevelAnimationDuration: Double = 0.75
+    
     // MARK: - MenuView default properties
     @Published var answerTime: Double = 2.5
     @Published var itemCount: Int = 9
@@ -51,7 +54,7 @@ final class SingleViewModel: ObservableObject {
         
         currentEmoji = allEmojis.shuffled()
         
-        withAnimation(.spring(duration: 0.75)) {
+        withAnimation(.spring(duration: createLevelAnimationDuration)) {
             leftCard = Array(currentEmoji[0..<itemCount]).shuffled()
             
             // create an array with only one duplicated emoji (currentEmoji[0]) inserted randomly
@@ -68,7 +71,17 @@ final class SingleViewModel: ObservableObject {
         guard gameState == .waiting, rounds < roundsToPlay else { return }
         rounds += 1
         gameState = .singlePlayerAnswering
-        runClock()
+        
+        if isFirstLevel {
+            runClock()
+            isFirstLevel = false
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + createLevelAnimationDuration) {
+                if self.gameState == .singlePlayerAnswering {
+                    self.runClock()
+                }
+            }
+        }
     }
     
     private func timeOut(emojiToCheck: [String]) {
@@ -235,6 +248,7 @@ final class SingleViewModel: ObservableObject {
         hasGameEnded = false
         isGameActive = false
         showPlayerCards = false
+        isFirstLevel = true
         
         leftCard = []
         rightCard = []
