@@ -78,6 +78,20 @@ final class BattleViewModel: ObservableObject {
         runClock()
     }
     
+    private func runClock() {
+        answerScale = 1
+        let checkEmoji = currentEmoji
+        isAnimating = true
+        
+        withAnimation(.linear(duration: answerTime)) {
+            self.answerScale = 0
+        } completion: {
+            if self.isAnimating {
+                self.timeOut(emojiToCheck: checkEmoji)
+            }
+        }
+    }
+    
     private func timeOut(emojiToCheck: [String]) {
         // guard currentEmoji == emojiToCheck avoids timming out if the cardView has changed
         // guard gameState != .waiting avoids timing out if checkAnswer has been executed
@@ -101,20 +115,6 @@ final class BattleViewModel: ObservableObject {
         gameState = .waiting
         isAnimating = false
         updatePlayerTurn()
-    }
-    
-    private func runClock() {
-        answerScale = 1
-        let checkEmoji = currentEmoji
-        isAnimating = true
-        
-        withAnimation(.linear(duration: answerTime)) {
-            self.answerScale = 0
-        } completion: {
-            if self.isAnimating {
-                self.timeOut(emojiToCheck: checkEmoji)
-            }
-        }
     }
     
     func checkAnswer(selectedEmoji: String) {
