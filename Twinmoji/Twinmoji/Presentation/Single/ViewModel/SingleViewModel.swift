@@ -116,6 +116,9 @@ final class SingleViewModel: ObservableObject {
     }
     
     func checkAnswer(selectedEmoji: String) {
+        timer?.invalidate()
+        timer = nil
+        
         gameState = .waiting
         
         if selectedEmoji == currentEmoji[0] {
@@ -125,7 +128,9 @@ final class SingleViewModel: ObservableObject {
             penalizePointsForFailure(timeRemaining: timeRemaining)
         }
         
-        checkIfGameHasEndedOrContinues()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.checkIfGameHasEndedOrContinues()
+        }
     }
     
     private func addPoints(timeRemaining: Double) {
