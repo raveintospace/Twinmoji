@@ -37,6 +37,8 @@ final class BattleViewModel: ObservableObject {
     private var pointsToWin: Int = 5
     private var pointsToLose: Int = -5
     
+    private var isAnimating: Bool = false
+    
     // MARK: - MenuView properties
     @Published var answerTime: Double = 1.0
     @Published var itemCount: Int = 9
@@ -91,25 +93,35 @@ final class BattleViewModel: ObservableObject {
             playerHasLost = true
         }
         
-        gameState = .waiting
-        
-        withAnimation(.smooth()) {
-            updatePlayerTurn()
+        withAnimation(.easeInOut(duration: 0.2)) {
+            answerColor = .clear
+            answerScale = 0
         }
+        
+        gameState = .waiting
+        isAnimating = false
+        updatePlayerTurn()
     }
     
     private func runClock() {
         answerScale = 1
         let checkEmoji = currentEmoji
+        isAnimating = true
         
         withAnimation(.linear(duration: answerTime)) {
-            answerScale = 0
+            self.answerScale = 0
         } completion: {
-            self.timeOut(emojiToCheck: checkEmoji)
+            if self.isAnimating {
+                self.timeOut(emojiToCheck: checkEmoji)
+            }
         }
     }
     
     func checkAnswer(selectedEmoji: String) {
+        guard gameState == .player1Answering || gameState == .player2Answering else { return }
+        
+        isAnimating = false
+        
         if selectedEmoji == currentEmoji[0] {       // right answer
             if gameState == .player1Answering {
                 player1Score += 1
@@ -133,8 +145,11 @@ final class BattleViewModel: ObservableObject {
             }
         }
         
-        answerColor = .clear
-        answerScale = 0
+        withAnimation(.easeInOut(duration: 0.2)) {
+            answerColor = .clear
+            answerScale = 0
+        }
+        
         gameState = .waiting
         updatePlayerTurn()
     }
@@ -152,9 +167,12 @@ final class BattleViewModel: ObservableObject {
     func exitGame() {
         player1Score = 0
         player2Score = 0
+        answerColor = .clear
+        answerScale = 1.0
         gameTurn = Bool.random() ? .player1 : .player2
         playerHasWon = false
         playerHasLost = false
         isGameActive = false
+        isAnimating = false
     }
 }
