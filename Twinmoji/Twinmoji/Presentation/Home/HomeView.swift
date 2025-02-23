@@ -16,6 +16,7 @@ struct HomeView: View {
         NavigationStack {
             ZStack {
                 TwinmojiGradient()
+                EmojiWallpaper()
                 
                 VStack(spacing: 18) {
                     homeViewTitle
@@ -44,7 +45,7 @@ struct HomeView: View {
 extension HomeView {
     
     private var homeViewTitle: some View {
-        Text("Select game mode")
+        Text("SELECT GAME MODE")
             .font(.title)
             .bold()
             .underline()

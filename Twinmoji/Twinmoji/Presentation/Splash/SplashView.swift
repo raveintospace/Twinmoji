@@ -16,6 +16,7 @@ struct SplashView: View {
     var body: some View {
         ZStack {
             TwinmojiGradient()
+            EmojiWallpaper()
             
             VStack {
                 logoImage
