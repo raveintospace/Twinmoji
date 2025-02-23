@@ -130,6 +130,7 @@ final class SingleViewModel: ObservableObject {
     }
     
     func checkAnswer(selectedEmoji: String) {
+        // Stop the timer to prevent unwanted timeOut() calls from interfering with the next level
         timer?.invalidate()
         timer = nil
         
@@ -142,6 +143,7 @@ final class SingleViewModel: ObservableObject {
             penalizePointsForFailure(timeRemaining: timeRemaining)
         }
         
+        // Delay the next level creation to allow the app to update and clear previous states
         DispatchQueue.main.asyncAfter(deadline: .now() + pauseToCreateNewLevel) {
             self.checkIfGameHasEndedOrContinues()
         }
