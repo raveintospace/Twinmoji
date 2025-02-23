@@ -57,6 +57,7 @@ Battle Mode
 
 ## 🚀 Installation
 - To run the app locally, clone the repository and open the project in Xcode (version 15 or later). Then, build and run the project in the simulator or on a physical device (iOS 18.1 or greater).
+- To test the app online, you can do it using Appetize, [click here](https://appetize.io/app/b_5zmu7jdxllixrtgsuxbig7lrdu)
 
 ---
 
