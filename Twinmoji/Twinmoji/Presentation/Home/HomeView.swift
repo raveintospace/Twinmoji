@@ -53,13 +53,13 @@ extension HomeView {
     }
     
     private var singleButton: some View {
-        ButtonBorderColorAnimated(text: "Single") {
+        ButtonBorderGradient(text: "Single") {
             showSingleMenuView.toggle()
         }
     }
     
     private var battleButton: some View {
-        ButtonBorderColorAnimated(text: "Battle") {
+        ButtonBorderGradient(text: "Battle") {
             showBattleMenuView.toggle()
         }
     }

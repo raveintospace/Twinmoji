@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-struct ButtonBorderColorAnimated: View {
-    
-    @State private var isAnimating: Bool = false
+struct ButtonBorderGradient: View {
     
     var text: String
     var onButtonPressed: (() -> Void)?
@@ -45,17 +43,13 @@ struct ButtonBorderColorAnimated: View {
                         .stroke(
                             LinearGradient(
                                 gradient: buttonGradient,
-                                startPoint: isAnimating ? .topTrailing : .bottomLeading,
-                                endPoint: isAnimating ? .bottomTrailing : .center
+                                startPoint: .bottomLeading,
+                                endPoint: .topTrailing
                             ),
                             lineWidth: 4
                         )
                         .blur(radius: radius)
-                        .animation(.easeInOut(duration: duration).repeatForever(autoreverses: true), value: isAnimating)
                 )
-        }
-        .onAppear {
-            isAnimating = true
         }
     }
 }
@@ -66,8 +60,8 @@ struct ButtonBorderColorAnimated: View {
         TwinmojiGradient()
         
         VStack(spacing: 20) {
-            ButtonBorderColorAnimated(text: "Single")
-            ButtonBorderColorAnimated(text: "Battle")
+            ButtonBorderGradient(text: "Single")
+            ButtonBorderGradient(text: "Battle")
         }
     }
 }
