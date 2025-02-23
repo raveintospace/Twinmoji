@@ -1,5 +1,5 @@
 # Twinmoji
-Twinmoji is a fun and challenging game, made with SwiftUI and available in two exciting modes: Single Player and Battle Mode. 
+Twinmoji is a fun and challenging game, made with SwiftUI, and available in two exciting modes: Single Player and Battle Mode. 
   - In Single Player mode, test your speed and sharpness to find the identical emoji, between two cards (each containing up to 12 emojis), before time runs out.
   - In Battle Mode, compete head-to-head with another player to spot the only identical emoji.
 
