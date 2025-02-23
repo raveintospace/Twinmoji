@@ -56,7 +56,15 @@ Battle Mode
 ---
 
 ## 🚀 Installation
-To run the app locally, clone the repository and open the project in Xcode (version 15 or later). Then, build and run the project in the simulator or on a physical device (iOS 17+ recommended).
+To run the app locally, clone the repository and open the project in Xcode (version 15 or later). Then, build and run the project in the simulator or on a physical device (iOS 18.1 or greater).
+
+---
+
+## 📱 Supported Platforms
+- Designed for iPhone: Optimized for iPhone screens with a seamless experience.
+    - Recommended minimum screen size: 6.1 inches for optimal visibility and gameplay. Smaller screens may work but could affect layout.
+- iPad Compatible: Fully functional on iPad with native support.
+- Mac & Apple Vision: Expected to work via "Designed for iPad" compatibility (untested).
 
 ---
 
