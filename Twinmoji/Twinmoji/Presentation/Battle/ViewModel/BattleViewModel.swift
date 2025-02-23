@@ -107,6 +107,7 @@ final class BattleViewModel: ObservableObject {
             playerHasLost = true
         }
         
+        // Smoothly clears visual state in 0.2s to avoid animation failures in next runClock()
         withAnimation(.easeInOut(duration: 0.2)) {
             answerColor = .clear
             answerScale = 0
@@ -145,6 +146,7 @@ final class BattleViewModel: ObservableObject {
             }
         }
         
+        // Smoothly clears visual state in 0.2s to avoid animation failures in next runClock().
         withAnimation(.easeInOut(duration: 0.2)) {
             answerColor = .clear
             answerScale = 0
