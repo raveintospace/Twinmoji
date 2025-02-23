@@ -136,7 +136,7 @@ extension SingleGameView {
     private var timeLeftText: some View {
         Text("Time left: \(String(format: "%.2f", viewModel.timeRemaining))")
             .foregroundStyle(.white)
-            .font(.system(size: viewModel.itemCount == 12 ? 16 : 24))
+            .font(.system(size: viewModel.itemCount == 12 ? 12 : 24))
             .bold()
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.vertical, 10)
