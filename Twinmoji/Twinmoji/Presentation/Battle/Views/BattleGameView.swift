@@ -118,10 +118,10 @@ extension BattleGameView {
     private var playerTurnTitle: some View {
         Text(viewModel.gameTurn.rawValue)
             .foregroundStyle(.white)
-            .font(.system(size: 24))
+            .font(.system(size: viewModel.itemCount == 12 ? 16 : 24))
             .bold()
             .frame(maxWidth: .infinity, alignment: .center)
-            .padding()
+            .padding(.vertical, 10)
     }
     
     private var exitGameButton: some View {
