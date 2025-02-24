@@ -45,7 +45,7 @@ struct SingleScoreForm: View {
                     Alert(
                         title: Text("Exit screen"),
                         message: Text("You will lose your score if you press Exit"),
-                        primaryButton: .destructive(Text("Exit")) { exitToMainMenu() },
+                        primaryButton: .destructive(Text("Exit")) { viewModel.exitGame() },
                         secondaryButton: .default(Text("Keep editing"))
                     )
                 }
@@ -134,8 +134,7 @@ extension SingleScoreForm {
     private var saveScoreButtonSection: some View {
         Section {
             Button("Save score") {
-                saveScore()
-                exitToMainMenu()
+                saveAndExitToMainMenu()
             }
             .foregroundStyle(.blue)
             .disabled(playerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -146,7 +145,8 @@ extension SingleScoreForm {
         viewModel.saveScore(player: playerName, deck: viewModel.emojisDeck.rawValue, matches: viewModel.matches, score: viewModel.playerScore)
     }
     
-    private func exitToMainMenu() {
+    private func saveAndExitToMainMenu() {
+        saveScore()
         viewModel.exitGame()
     }
 }

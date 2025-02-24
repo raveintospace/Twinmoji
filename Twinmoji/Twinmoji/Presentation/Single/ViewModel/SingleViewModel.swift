@@ -194,7 +194,7 @@ final class SingleViewModel: ObservableObject {
         // Final penalty calculation
         let penalty = Int(Double(basePenalty) * difficultyMultiplier * speedMultiplier * timeFactor)
 
-        playerScore -= max(penalty, 20)  // Min of 10 points of penalty
+        playerScore -= max(penalty, 20)  // Min of 20 points of penalty
     }
 
     private func penalizePointsForTimeOut() {
