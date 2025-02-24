@@ -150,7 +150,7 @@ final class SingleViewModel: ObservableObject {
     }
     
     private func addPoints(timeRemaining: Double) {
-        let baseScore = 100
+        let baseScore = 1000
 
         let difficultyMultiplier: Double = (itemCount == 9) ? 1.0 : 1.3 // Easy: 1.0, Hard: 1.3
         
@@ -167,7 +167,7 @@ final class SingleViewModel: ObservableObject {
         let timeFactor = timeRemaining / answerTime
         let score = Int(Double(baseScore) * timeFactor * difficultyMultiplier * speedMultiplier)
         
-        playerScore += max(score, 10)  // Min of 10 points in worst case scenario
+        playerScore += max(score, 100)  // Min of 100 points in worst case scenario
     }
     
     private func addMatch() {
@@ -175,7 +175,7 @@ final class SingleViewModel: ObservableObject {
     }
     
     private func penalizePointsForFailure(timeRemaining: Double) {
-        let basePenalty = 50
+        let basePenalty = 100
         
         let difficultyMultiplier: Double = (itemCount == 9) ? 1.3 : 1.0  // Easy: 1.3, Hard: 1.0
 
@@ -194,11 +194,11 @@ final class SingleViewModel: ObservableObject {
         // Final penalty calculation
         let penalty = Int(Double(basePenalty) * difficultyMultiplier * speedMultiplier * timeFactor)
 
-        playerScore -= max(penalty, 10)  // Min of 10 points of penalty
+        playerScore -= max(penalty, 20)  // Min of 10 points of penalty
     }
 
     private func penalizePointsForTimeOut() {
-        let basePenalty = 30
+        let basePenalty = 60
 
         let difficultyMultiplier: Double = (itemCount == 9) ? 1.3 : 1.0
 
@@ -213,7 +213,7 @@ final class SingleViewModel: ObservableObject {
 
         let penalty = Int(Double(basePenalty) * difficultyMultiplier * speedMultiplier)
 
-        playerScore -= max(penalty, 5)
+        playerScore -= max(penalty, 10)
     }
     
     private func checkIfGameHasEndedOrContinues() {
