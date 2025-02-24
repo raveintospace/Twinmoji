@@ -14,8 +14,8 @@ struct SingleGameView: View {
     @State private var activeAlert: SingleGameAlert? = nil
     
     @State private var countdownTime: Double = 5.0
-    
     @State private var showSingleScoreForm: Bool = false
+    @State private var scoreTextColor: Color = .white
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -47,6 +47,16 @@ struct SingleGameView: View {
         .onChange(of: viewModel.hasGameEnded) { _ , newValue in
             if newValue {
                 activeAlert = .hasGameEnded
+            }
+        }
+        .onChange(of: viewModel.wasLastAnswerCorrect) { _, newValue in
+            if let wasCorrect = newValue {
+                scoreTextColor = wasCorrect ? .green : .red
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    withAnimation(.easeOut(duration: 0.3)) {
+                        scoreTextColor = .white
+                    }
+                }
             }
         }
     }
@@ -83,6 +93,7 @@ extension SingleGameView {
                 VStack(alignment: .center) {
                     Text("Score:")
                     Text(String(viewModel.playerScore))
+                        .foregroundStyle(scoreTextColor)
                     Divider()
                     Text("Matches:")
                     Text(String(viewModel.matches))
@@ -130,15 +141,6 @@ extension SingleGameView {
         .disabled(!viewModel.showPlayerCards)
     }
     
-    private var timeLeftText: some View {
-        Text("Time left: \(String(format: "%.2f", viewModel.timeRemaining))")
-            .foregroundStyle(.white)
-            .font(.system(size: viewModel.itemCount == 12 ? 12 : 24))
-            .bold()
-            .frame(maxWidth: .infinity, alignment: .center)
-            .padding(.vertical, 10)
-    }
-    
     private var countdownText: some View {
         Text("\(String(format: "%.0f", countdownTime))")
             .foregroundStyle(.white)
@@ -148,7 +150,15 @@ extension SingleGameView {
             .padding()
             .opacity(countdownTime > 0 ? 1 : 0)
     }
-
+    
+    private var timeLeftText: some View {
+        Text("Time left: \(String(format: "%.2f", viewModel.timeRemaining))")
+            .foregroundStyle(.white)
+            .font(.system(size: viewModel.itemCount == 12 ? 12 : 24))
+            .bold()
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.vertical, 10)
+    }
     
     private var exitGameButton: some View {
         Button("Exit game", systemImage: "xmark.circle") {

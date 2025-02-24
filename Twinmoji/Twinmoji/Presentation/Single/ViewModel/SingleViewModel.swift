@@ -34,6 +34,7 @@ final class SingleViewModel: ObservableObject {
     
     @Published var hasGameEnded: Bool = false
     @Published var showPlayerCards: Bool = false
+    @Published var wasLastAnswerCorrect: Bool? = nil
     
     private var isFirstLevel: Bool = true
     private let createLevelAnimationDuration: Double = 0.75
@@ -139,12 +140,15 @@ final class SingleViewModel: ObservableObject {
         if selectedEmoji == currentEmoji[0] {
             addPoints(timeRemaining: timeRemaining)
             addMatch()
+            wasLastAnswerCorrect = true
         } else {
             penalizePointsForFailure(timeRemaining: timeRemaining)
+            wasLastAnswerCorrect = false
         }
         
         // Delay the next level creation to allow the app to update and clear previous states
         DispatchQueue.main.asyncAfter(deadline: .now() + pauseToCreateNewLevel) {
+            self.wasLastAnswerCorrect = nil
             self.checkIfGameHasEndedOrContinues()
         }
     }
